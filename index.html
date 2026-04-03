@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>ไม่ว่าง + ขี้เกียจ</title>
+
+  <style>
+    /* ตั้งใจให้ดู “ทำส่งๆ” */
+    body{ margin:0; }
+    center{ padding:18px; }
+    .box{
+      display:inline-block;
+      background:#fff;
+      border:2px solid #000;
+      padding:10px;
+      margin-top:10px;
+      text-align:left;
+      max-width:900px;
+    }
+    .blink{ animation: bl 0.7s steps(1,end) infinite; font-weight:bold; }
+    @keyframes bl{ 50%{ opacity:0; } }
+    button{ font-weight:bold; }
+    ol{ margin:8px 0 0; padding-left:22px; }
+  </style>
+</head>
+
+<body bgcolor="silver" text="black">
+<center>
+
+  <h1>😴 ไม่ว่างครับ</h1>
+  <h3>🙃 ไม่ตอบตอนนี้ เพราะขี้เกียจ</h3>
+
+  <marquee id="marq" behavior="alternate" scrollamount="14">
+    ...กำลังสุ่มคำพูดให้คุณอยู่...
+  </marquee>
+
+  <p class="blink">⚠️ ระบบตอบกลับ: ปิด (เหตุผล: ขี้เกียจ)</p>
+
+  <hr width="90%">
+
+  <p>
+    ✅ อยากทักก็ตามสบาย<br>
+    ❌ แต่อย่าหวังว่าผมจะตอบ<br>
+    😴 เพราะผมขี้เกียจ
+  </p>
+
+  <div style="display:inline-block; border:1px solid #000; background:#fff; padding:8px; margin-top:8px;">
+    <label style="font-weight:bold;">
+      <input type="checkbox" id="spicy" checked>
+      โหมดกวนๆ (สุ่มคำแรงขึ้นนิดนึง)
+    </label>
+    &nbsp; | &nbsp;
+    <label style="font-weight:bold;">
+      <input type="checkbox" id="auto" checked>
+      สุ่มอัตโนมัติ
+    </label>
+  </div>
+
+  <br><br>
+
+  <button onclick="randomMsg()">🎲 สุ่มคำพูด</button>
+  <button onclick="copyCurrent()">📋 คัดลอกคำล่าสุด</button>
+  <button onclick="alert('บอกแล้วไงว่าขี้เกียจ 😴')">🙃 กดไปก็เท่านั้น</button>
+
+  <br><br>
+
+  <div class="box">
+    <b>📌 27 ประโยค (อันนี้อยู่นิ่งๆ ไม่ลอย)</b>
+    <ol id="list"></ol>
+  </div>
+
+  <br><br>
+  <font size="1">🧨 เว็บนี้สภาพตามเจ้าของ</font>
+
+</center>
+
+<script>
+  // 27 ประโยค (นิ่งๆ ไม่ลอย)
+  const fixed27 = [
+    "😴 ไม่ว่างครับ แล้วก็ขี้เกียจด้วย จบ",
+    "🛑 ตอนนี้ไม่ว่างครับ ถ้าว่างก็ยังขี้เกียจอยู่ดี",
+    "🙃 ไม่ว่างครับ ขี้เกียจตอบด้วยนะ",
+    "📩 ทักได้ครับ แต่ผมไม่ว่าง และขี้เกียจ",
+    "👀 อ่านแล้วครับ…ไม่ว่างตอบ + ขี้เกียจพิมพ์",
+    "🔒 ไม่ว่างครับ ระบบตอบแชทโดนปิด (เพราะขี้เกียจ)",
+    "📝 ตอนนี้ยุ่งครับ กำลังไปสอบเข้า ปวช…ไม่ว่างด้วย ขี้เกียจตอบด้วย",
+    "⚠️ ไม่ว่างนะครับ แล้วอย่าถามซ้ำ เดี๋ยวขี้เกียจเพิ่ม",
+    "⏳ เร่งได้ครับ…ผมจะยิ่งไม่ว่างและยิ่งขี้เกียจ",
+    "🙏 ขอบคุณที่ทักครับ แต่ไม่ว่าง และขี้เกียจตอบจริงๆ",
+    "💤 ไม่ว่างครับ กำลังทำอะไร? กำลังขี้เกียจอยู่",
+    "❌ ถามได้ครับ ตอบไม่ได้ครับ (ไม่ว่าง + ขี้เกียจ)",
+    "✅ สถานะ: ONLINE | ❌ ว่างตอบ: NO | 😴 ขี้เกียจ: YES",
+    "😑 จะให้ตอบตอนนี้เหรอครับ? ไม่ว่างครับ และขี้เกียจครับ",
+    "🏃 ไม่ว่างครับ ขอไปยุ่งต่อ (ยุ่งกับความขี้เกียจ)",
+    "📵 เห็นข้อความแล้วครับ แต่ตอนนี้ไม่ว่างจะตอบ + ขี้เกียจจะพิมพ์",
+    "🕳️ ไม่ว่างครับ เดี๋ยวค่อยตอบ…เดี๋ยวที่ไม่มาถึงเพราะขี้เกียจ",
+    "🧊 ไม่ว่างครับ และไม่ฝืนความขี้เกียจด้วย",
+    "🚫 อย่าบงการครับ ผมไม่ว่างจะทำตาม และขี้เกียจด้วย",
+    "📌 ทวงได้ครับ ผลลัพธ์: ไม่ว่างเหมือนเดิม + ขี้เกียจเพิ่ม",
+    "😅 ขอโทษนะครับ ไม่ว่างจริงๆ (ขี้เกียจด้วยนะ)",
+    "🎭 ไม่ว่างครับ ถ้าตอบคือเสียคอนเซ็ปต์ “ขี้เกียจ”",
+    "🧠 ไม่ว่างครับ วันนี้รับแต่ความขี้เกียจ ไม่รับคำสั่ง",
+    "⌨️ อ่านแล้วนะครับ…แต่ไม่ว่างจะตอบ ขี้เกียจจะพิมพ์",
+    "📰 สรุป: ไม่ว่าง และขี้เกียจครับ จบข่าว 😴",
+    "🛒 ผมไม่ว่างนะครับ...เชิญถามพ่อค้าคนอื่น ผมขี้เกียจตอบ 😌",
+    "🆓 ทำเองได้เลยนะครับ สอนไปแล้วมันฟรี…ผมขี้เกียจตอบซ้ำ 😴"
+  ];
+
+  // โหมดกวนๆ (สุ่มไว้โชว์บน marquee/คำล่าสุด)
+  // (ยังคุมโทน: ไม่ว่าง + ขี้เกียจ + กวนๆ)
+  const spicyPool = [
+    "😴 เห็นแชทแล้วครับ…แล้วไงต่อ? ขี้เกียจตอบ",
+    "🙃 พิมพ์ยาวขนาดนี้…ขี้เกียจอ่านครับ",
+    "🧠 ผมกำลังใช้สมองน้อยที่สุดเท่าที่มนุษย์ทำได้",
+    "📵 ทักมาได้ครับ แต่ระบบ ‘ขี้เกียจ’ ทำงานอยู่",
+    "⛔ ถามซ้ำได้ครับ…จะได้เงียบให้ดูชัดๆ",
+    "⌛ เร่งได้ครับ ผลลัพธ์คือ ‘เงียบเร็วขึ้น’",
+    "🫠 ผมไม่หายครับ แค่ขี้เกียจตอบแบบมีคลาส",
+    "🧱 อยากได้คำตอบไว แนะนำคุยกับกำแพงครับ นิ่งดี",
+    "🛌 กำลังยุ่งครับ ยุ่งกับการไม่ทำอะไร",
+    "🔕 ขอโทษครับ กำลังอยู่ในโหมด ‘ไม่รับรู้’",
+    "🤏 เอาสั้นๆนะ: ไม่ว่าง + ขี้เกียจ",
+    "🧯 อย่าทักแรง เดี๋ยวไฟขี้เกียจลุก",
+    "🧻 คำตอบอยู่ในหัวครับ…แต่ขี้เกียจเอาออกมา",
+    "🪫 แบตเต็มก็จริง แต่แรงตอบเป็นศูนย์",
+    "🫥 อ่านแล้วครับ…ขอทำเป็นไม่เห็นต่อ"
+  ];
+
+  // โชว์ list 27 (นิ่ง)
+  const list = document.getElementById("list");
+  fixed27.forEach(m => {
+    const li = document.createElement("li");
+    li.textContent = m;
+    list.appendChild(li);
+  });
+
+  let lastMsg = fixed27[0];
+  const marq = document.getElementById("marq");
+  const spicy = document.getElementById("spicy");
+  const auto = document.getElementById("auto");
+
+  function pickFrom(arr){
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function randomMsg(){
+    // ถ้าเปิดโหมดกวนๆ ให้สุ่มจาก spicy เป็นหลัก (70%) ไม่งั้นสุ่มจาก 27
+    const useSpicy = spicy.checked && Math.random() < 0.7;
+    lastMsg = useSpicy ? pickFrom(spicyPool) : pickFrom(fixed27);
+    marq.textContent = "🚨 " + lastMsg + " 🚨";
+  }
+
+  function copyCurrent(){
+    const text = lastMsg || "";
+    (navigator.clipboard?.writeText(text) || Promise.reject())
+      .then(() => alert("คัดลอกแล้ว ✅"))
+      .catch(() => {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        alert("คัดลอกแล้ว ✅");
+      });
+  }
+
+  // สุ่มอัตโนมัติ (แบบขี้เกียจๆ)
+  let timer = null;
+  function setAuto(){
+    if (timer) clearInterval(timer);
+    timer = null;
+    if (auto.checked){
+      timer = setInterval(randomMsg, 3500);
+    }
+  }
+
+  auto.addEventListener("change", setAuto);
+
+  randomMsg();
+  setAuto();
+</script>
+
+</body>
+</html>￼Enter
