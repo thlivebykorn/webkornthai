@@ -1,287 +1,615 @@
 <!DOCTYPE html>
-<html>
+<html dir='ltr' lang='en'>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ทีวี</title>
+<meta charset='UTF-8' />
 
 
+
+<link href="http://hdtvdd.com/work/css/bootstrap.css" rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="http://hdtvdd.com/work/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="http://hdtvdd.com/work/css/normalize.css">
+<link rel="stylesheet" href="http://hdtvdd.com/work/css/custom.css">
+
+	
+<!-- Styles of Puerto Responsive Flat Buttons -->
+<link rel="stylesheet" href="http://hdtvdd.com/work/css/main.css">
+	
+<!-- Font awesome -->
+<link rel="stylesheet" href="http://hdtvdd.com/work/assets_remark/fonts/font-awesome/font-awesome.min.css">
+
+<!-- start plugins -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://hdtvdd.com/work/js/jquery-1.11.1.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:100,200,300,400,500,600,700,800,900" rel='stylesheet' type='text/css'>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="http://hdtvdd.com/work/js/jquery.backstretch.js"></script>
+<script src="http://hdtvdd.com/work/bootstrap-login-forms/form-2/assets/js/scripts.js"></script>
+<style type="text/css">
 
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Charm&display=swap" rel="stylesheet">
+.overlay {
+    z-index: 5;
+    top: 0;
+    left: 0;
+    overflow-y: hidden;
+    position:absolute;
+    text-align:left;
+	background-color:rgba(255,255,255,0);
+}
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2209728955367685"
-     crossorigin="anonymous"></script>
+.overlay-flag {
+    position:absolute;
+    z-index: 6;
+    top: 0;
+    left: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    text-align:right;
+	background-color:rgba(255,255,255,0);
+
+}
 
 
-    <title>PLAYIDTV - ดูทีวีออนไลน์สด</title>
-<li class="nav-item ">
-        <a class="nav-link" href="https://line.me/ti/p/mGZ04jWToY"><font color="#3333FF"><button type="button" class="btn btn-outline-info"><i class="fa fa-commenting" aria-hidden="true"></i></font> <font color="#330066"> ติดต่อแอดมิน</font></a>
-      </li>
-    </ul>
-<li class="nav-item ">
-        <a class="nav-link" href="https://drzl.short.gy"><font color="#3333FF"><button type="button" class="btn btn-outline-info"><i class="fa fa-commenting" aria-hidden="true"></i></font> <font color="#330066"> ลิงค์ดาวโหลดแอพ</font></a>
-      </li>
-    </ul>
-<form action="" class="was-validated"  method="POST">
+.overlay2 {
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    overflow-y: hidden;
+    position:absolute;
+    text-align:left;
+	background-color:rgba(0,0,0,0.5);
+	height:60px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-right:5px;
+	width:100%;
+	margin-left:0px;
+	margin-top:35px;
+}
+.login_botton {
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 2px;
+    cursor: pointer;
+	border-radius: 4px;
+}
+
+.live_botton {
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 2px;
+    cursor: pointer;
+	border-radius: 4px;
+}
+
+.login_txt {
+	border: #0A0A0A;
+	color: black;
+	text-align: center;
+	cursor: pointer;
+	border-radius: 4px;
+	width:150px;
+    margin-top: -6px;
+
+}
+
+input:focus {
+	outline: none !important;
+	border-color: #F7AA06;
+	box-shadow: 0 0 0 5px #F7AA06;
+	border-radius: 2px
+}
+
+button:focus {
+	outline: none !important;
+	border-color: #F7AA06;
+	box-shadow: 0 0 0 5px #F7AA06;
+	border-radius: 2px;
+}
+
+a:focus img{
+	outline: none !important;
+	box-shadow: 0 0 0 5px #F7AA06;
+	border-radius: 2px;
+
+}
+
+.box-flag {
+	border: 0px;
+	background-color: rgba(255,255,255,0.0);
+	display: inline-block;
+}
 
 
-	</div>
-</br>
-</br>
+
+</style>
+<link rel="stylesheet" href="http://hdtvdd.com/work/font/stylesheet.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="http://hdtvdd.com/work/css/8k.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="http://hdtvdd.com/work/css/overlay.css" type="text/css" charset="utf-8">
+<link href="http://hdtvdd.com/work/css/theme.css" rel="stylesheet">
+
+</head>
+<body>
 
 
-    </form>
+  <style>
+  .modal-header {
+    background-color: #111;
+    color:white !important;
+    text-align: center;
+    font-size: 30px;
+  }
+  .modal-footer {
+    background-color: #f9f9f9;
+  }
   
-  </div>
-</nav>
-
-
-<br />
-
-<div class="container">
-
-<center>
-<div class="col-lg-6 wow fadeInUp animated " style="visibility: visible; animation-name: fadeInUp;"> 
-   
-
-
-
-</font>
-</br>
-<h1>PLAYIDTV (FREE)  OTTPLAYER (VIP) </h1>
-<font color="green">
-วันนี้
-<script>
-<!-- START HIDE
-print1="";
-print2="";
-print3="";
-today = new Date();
-weekday = today.getDay();
-if (weekday == 6) print1='วันเสาร์';
-if (weekday == 0) print1='วันอาทิตย์';
-if (weekday == 1) print1='วันจันทร์';
-if (weekday == 2) print1='วันอังคาร';
-if (weekday == 3) print1='วันพุธ';
-if (weekday == 4) print1='วันพฤหัสบดี';
-if (weekday == 5) print1='วันศุกร์';
-month = today.getMonth();
-if (month == 0) print2='เดือนมกราคม';
-if (month == 1) print2='เดือนกุมภาพันธ์';
-if (month == 2) print2='เดือนมีนาคม';
-if (month == 3) print2='เดือนเมษายน';
-if (month == 4) print2='เดือนพฤษภาคม';
-if (month == 5) print2='เดือนมิถุนายน';
-if (month == 6) print2='เดือนกรกฎาคม';
-if (month == 7) print2='เดือนสิงหาคม';
-if (month == 8) print2='เดือนกันยายน';
-if (month == 9) print2='เดือนตุลาคม';
-if (month == 10) print2='เดือนพฤศจิกายน';
-if (month == 11) print2='เดือนธันวาคม';
-date = today.getDate();
-year=today.getYear();
-document.write (print1,'ที่ ',date, ' ', print2,' พศ. ',year+2443);
-// STOP HIDE --></script>
-
-
-<hr>
-</font>
-<marquee scrolldelay="200" style="font-size: 29px;">
-    ยินดีต้อนรับสู่เว็บไซต์ Playidtv ท่านสามารถชมทีวีสด ฟรี ผ่านแอพหริอ เพลย์ลิสต์ 
- 
-   </marquee> 
-
-<img src="https://dl.dropbox.com/scl/fi/931syw4lfy6lzhi0eb4vv/alltv.png?rlkey=ssxu0y11p35hc0hvpdvyyq6vc&dl=0" width="300dp" height="auto">
-<p>
-วิทยุออนไลน์ ฟังเพลงเพราะๆฟังต่อเนื่อง 24 ช.ม
-<script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
-<script src="https://hosted.muses.org/mrp.js"></script>
-
-<script type="text/javascript">
-MRP.insert({
-'url':'https://80sv2.hostpleng.com/?url=http://112.121.150.133:8020/stream',
-'codec':'mp3',
-'volume':100,
-'autoplay':true,
-'forceHTML5' :true,
-'jsevents':true,
-'buffering':0,
-'title':'PLAYIDTV Music_Radio',
-'wmode':'transparent',
-'skin':'faredirfare',
-'width':269,
-'height':52
-});
-</script>
-    <!--<<iframe src="//www.ondio.in/status/ondio_new_index.php" width="100%" height="20" frameborder="0" marginwidth="0" marginheight="0" scrolling="No"></iframe>-->
-
-    <!--<div id="MusesRadioPlayer-HTML5-player-0" class="musesStyleReset" style="overflow: hidden; width: 100%; height: 52px; position: relative;">
-
-
+.group {
+  margin-bottom: 30px;
+}
+.group label {
+  font-size: 24px;
+}
+.group2 label {
+  font-size: 20px;
+}
+  
+  input[type='text'] { font-size: 24px; }
+  
+  </style>
 
 
 
 
 </div>
-</html>
-
-
-
-# เอาลิงค์ไปวางไหนแอพที OTTNavigate 
-# ลิงค์ตัวนี่ดูฟรี100%
-# สามารถแชร์ลิงค์ได้ แค่ใส่เครดิต PLAYIDTV
-
-  <p class="blink">⚠️ ระบบตอบกลับ: ปิด (เหตุผล: ขี้เกียจ)</p>
-
-  <hr width="90%">
-
-  <p>
-    ✅ อยากทักก็ตามสบาย<br>
-    ❌ แต่อย่าหวังว่าผมจะตอบ<br>
-    😴 เพราะผมขี้เกียจ
-  </p>
-
-  <div style="display:inline-block; border:1px solid #000; background:#fff; padding:8px; margin-top:8px;">
-    <label style="font-weight:bold;">
-      <input type="checkbox" id="spicy" checked>
-      โหมดกวนๆ (สุ่มคำแรงขึ้นนิดนึง)
-    </label>
-    &nbsp; | &nbsp;
-    <label style="font-weight:bold;">
-      <input type="checkbox" id="auto" checked>
-      สุ่มอัตโนมัติ
-    </label>
-  </div>
-
-  <br><br>
-
-  <button onclick="randomMsg()">🎲 สุ่มคำพูด</button>
-  <button onclick="copyCurrent()">📋 คัดลอกคำล่าสุด</button>
-  <button onclick="alert('บอกแล้วไงว่าขี้เกียจ 😴')">🙃 กดไปก็เท่านั้น</button>
-
-  <br><br>
-
-  <div class="box">
-    <b>📌 27 ประโยค (อันนี้อยู่นิ่งๆ ไม่ลอย)</b>
-    <ol id="list"></ol>
-  </div>
-
-  <br><br>
-  <font size="1">🧨 เว็บนี้สภาพตามเจ้าของ</font>
-
-</center>
-
+ 
 <script>
-  // 27 ประโยค (นิ่งๆ ไม่ลอย)
-  const fixed27 = [
-    "😴 ไม่ว่างครับ แล้วก็ขี้เกียจด้วย จบ",
-    "🛑 ตอนนี้ไม่ว่างครับ ถ้าว่างก็ยังขี้เกียจอยู่ดี",
-    "🙃 ไม่ว่างครับ ขี้เกียจตอบด้วยนะ",
-    "📩 ทักได้ครับ แต่ผมไม่ว่าง และขี้เกียจ",
-    "👀 อ่านแล้วครับ…ไม่ว่างตอบ + ขี้เกียจพิมพ์",
-    "🔒 ไม่ว่างครับ ระบบตอบแชทโดนปิด (เพราะขี้เกียจ)",
-    "📝 ตอนนี้ยุ่งครับ กำลังไปสอบเข้า ปวช…ไม่ว่างด้วย ขี้เกียจตอบด้วย",
-    "⚠️ ไม่ว่างนะครับ แล้วอย่าถามซ้ำ เดี๋ยวขี้เกียจเพิ่ม",
-    "⏳ เร่งได้ครับ…ผมจะยิ่งไม่ว่างและยิ่งขี้เกียจ",
-    "🙏 ขอบคุณที่ทักครับ แต่ไม่ว่าง และขี้เกียจตอบจริงๆ",
-    "💤 ไม่ว่างครับ กำลังทำอะไร? กำลังขี้เกียจอยู่",
-    "❌ ถามได้ครับ ตอบไม่ได้ครับ (ไม่ว่าง + ขี้เกียจ)",
-    "✅ สถานะ: ONLINE | ❌ ว่างตอบ: NO | 😴 ขี้เกียจ: YES",
-    "😑 จะให้ตอบตอนนี้เหรอครับ? ไม่ว่างครับ และขี้เกียจครับ",
-    "🏃 ไม่ว่างครับ ขอไปยุ่งต่อ (ยุ่งกับความขี้เกียจ)",
-    "📵 เห็นข้อความแล้วครับ แต่ตอนนี้ไม่ว่างจะตอบ + ขี้เกียจจะพิมพ์",
-    "🕳️ ไม่ว่างครับ เดี๋ยวค่อยตอบ…เดี๋ยวที่ไม่มาถึงเพราะขี้เกียจ",
-    "🧊 ไม่ว่างครับ และไม่ฝืนความขี้เกียจด้วย",
-    "🚫 อย่าบงการครับ ผมไม่ว่างจะทำตาม และขี้เกียจด้วย",
-    "📌 ทวงได้ครับ ผลลัพธ์: ไม่ว่างเหมือนเดิม + ขี้เกียจเพิ่ม",
-    "😅 ขอโทษนะครับ ไม่ว่างจริงๆ (ขี้เกียจด้วยนะ)",
-    "🎭 ไม่ว่างครับ ถ้าตอบคือเสียคอนเซ็ปต์ “ขี้เกียจ”",
-    "🧠 ไม่ว่างครับ วันนี้รับแต่ความขี้เกียจ ไม่รับคำสั่ง",
-    "⌨️ อ่านแล้วนะครับ…แต่ไม่ว่างจะตอบ ขี้เกียจจะพิมพ์",
-    "📰 สรุป: ไม่ว่าง และขี้เกียจครับ จบข่าว 😴",
-    "🛒 ผมไม่ว่างนะครับ...เชิญถามพ่อค้าคนอื่น ผมขี้เกียจตอบ 😌",
-    "🆓 ทำเองได้เลยนะครับ สอนไปแล้วมันฟรี…ผมขี้เกียจตอบซ้ำ 😴"
-  ];
-
-  // โหมดกวนๆ (สุ่มไว้โชว์บน marquee/คำล่าสุด)
-  // (ยังคุมโทน: ไม่ว่าง + ขี้เกียจ + กวนๆ)
-  const spicyPool = [
-    "😴 เห็นแชทแล้วครับ…แล้วไงต่อ? ขี้เกียจตอบ",
-    "🙃 พิมพ์ยาวขนาดนี้…ขี้เกียจอ่านครับ",
-    "🧠 ผมกำลังใช้สมองน้อยที่สุดเท่าที่มนุษย์ทำได้",
-    "📵 ทักมาได้ครับ แต่ระบบ ‘ขี้เกียจ’ ทำงานอยู่",
-    "⛔ ถามซ้ำได้ครับ…จะได้เงียบให้ดูชัดๆ",
-    "⌛ เร่งได้ครับ ผลลัพธ์คือ ‘เงียบเร็วขึ้น’",
-    "🫠 ผมไม่หายครับ แค่ขี้เกียจตอบแบบมีคลาส",
-    "🧱 อยากได้คำตอบไว แนะนำคุยกับกำแพงครับ นิ่งดี",
-    "🛌 กำลังยุ่งครับ ยุ่งกับการไม่ทำอะไร",
-    "🔕 ขอโทษครับ กำลังอยู่ในโหมด ‘ไม่รับรู้’",
-    "🤏 เอาสั้นๆนะ: ไม่ว่าง + ขี้เกียจ",
-    "🧯 อย่าทักแรง เดี๋ยวไฟขี้เกียจลุก",
-    "🧻 คำตอบอยู่ในหัวครับ…แต่ขี้เกียจเอาออกมา",
-    "🪫 แบตเต็มก็จริง แต่แรงตอบเป็นศูนย์",
-    "🫥 อ่านแล้วครับ…ขอทำเป็นไม่เห็นต่อ"
-  ];
-
-  // โชว์ list 27 (นิ่ง)
-  const list = document.getElementById("list");
-  fixed27.forEach(m => {
-    const li = document.createElement("li");
-    li.textContent = m;
-    list.appendChild(li);
+$(document).ready(function(){
+  $("#myBtn").click(function(){
+    $("#myModal").modal();
   });
+});
 
-  let lastMsg = fixed27[0];
-  const marq = document.getElementById("marq");
-  const spicy = document.getElementById("spicy");
-  const auto = document.getElementById("auto");
+$(document).ready(function(){
+  $("#myBtn2").click(function(){
+    $("#myModal2").modal();
+  });
+});
 
-  function pickFrom(arr){
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
+$(document).ready(function(){
+  $("#myBtn_vip").click(function(){
+    $("#myModal_vip").modal();
+  });
+});
 
-  function randomMsg(){
-    // ถ้าเปิดโหมดกวนๆ ให้สุ่มจาก spicy เป็นหลัก (70%) ไม่งั้นสุ่มจาก 27
-    const useSpicy = spicy.checked && Math.random() < 0.7;
-    lastMsg = useSpicy ? pickFrom(spicyPool) : pickFrom(fixed27);
-    marq.textContent = "🚨 " + lastMsg + " 🚨";
-  }
-
-  function copyCurrent(){
-    const text = lastMsg || "";
-    (navigator.clipboard?.writeText(text) || Promise.reject())
-      .then(() => alert("คัดลอกแล้ว ✅"))
-      .catch(() => {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-        alert("คัดลอกแล้ว ✅");
-      });
-  }
-
-  // สุ่มอัตโนมัติ (แบบขี้เกียจๆ)
-  let timer = null;
-  function setAuto(){
-    if (timer) clearInterval(timer);
-    timer = null;
-    if (auto.checked){
-      timer = setInterval(randomMsg, 3500);
-    }
-  }
-
-  auto.addEventListener("change", setAuto);
-
-  randomMsg();
-  setAuto();
+$(document).ready(function(){
+  $("#myBtn_cpass").click(function(){
+    $("#myModal_changepass").modal();
+  });
+});
 </script>
 
-</body>
-</html>￼Enter
+<!--background-image:url(images/chinese-new-year-2017.jpg);background-attachment:fixed;background-position:center;-->
+
+    <div class="container" style="background-color:rgba(0,0,0,0.0); height:100%;">
+     <div class="container_wrap">
+     	<div class="row" style="background-color:#000;border-radius:5px">
+        	<div class="col-lg-12 col-md-12 col-xs-12" style="margin-top:10px;margin-bottom:10px;">
+            	<div class="row" >
+			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+				<div class="logo">
+									</div>
+			</div>
+
+		<div class="col-lg-12 col-md-12 col-xs-12" align="right" style="padding-top:0px;padding-bottom:5px;padding-left:5px;padding-right:5px">
+            <form class="form-inline">
+                <div class="form-group" style="margin:5px;">
+
+                
+					
+
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="https://s3.amazonaws.com/menumaker/menumaker.min.js" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="http://hdtvdd.com/work/css/menu1.css">
+<link rel="stylesheet" href="http://hdtvdd.com/work/css/mainmenu.css">
+   
+   
+
+</div>
+</div>
+<style type="text/css">
+.footer 
+{
+    text-align: center;
+    position : absolute;
+    bottom : -20;
+    width:99%;
+    height : 56px;
+    margin-top : 50px;
+  }
+</style>
+</header>
+	
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>       
+<div id="cssmenu">
+<ul>
+<i class="" aria-hidden="true"></i><li class="active"><a href="https://drzl.short.gy"></i> 🧑‍🔧 ติดต่อแอดมิน</a></li>
+<li class="active"><a href="go:nung"><i class=""></i> 📽️ ดูหนังออนไลน์</a></li>
+<li class="active"><a href="go:livesod"><i class=""></i> ⚽ บอลสด</a></li>
+     <li class="active"><a href="go:hometv"><i class=" "></i>📱ดูผ่านมือถือ</a></li>
+<li class="active"><a href="go:sptv"><i class=""></i> ⚽ ช่องใหม่</a></li>
+<li> <li class="active"><a href="http://action_exit"><i class=""></i> 🖥️ ออก</a>
+        <ul>
+</div>
+	
+
+    <div class="row">
+		<div class="col-lg-2 col-md-2 col-xs-2" style="width:20%;padding-left:6px;padding-right:6px;">  
+			<div class="col-lg-12 col-md-12 col-xs-12" style="padding-top:5px;padding-bottom:0px">
+			
+						
+
+						
+						
+
+<div class="row" style="background-color:#202020;padding:0px;">
+<table class="table" style="margin-bottom: 5px;">
+<tr>
+	<td>
+<a class="table-menu" href="go:hdtv.php" style="background-color: red"><i class=""></i> <b>📺ดิจิตอลทีวี</b></a>
+	</td>
+</tr>
+</table>
+</div>
+<div class="row" style="background-color:#202020;padding:0px;">
+<table class="table" style="margin-bottom: 5px;">
+<tr>
+	<td>
+		<a class="table-menu" href="go:hdtv2.php"><i class=""></i> <b> 🎤ข่าว</b></a>
+		
+	</td>
+</tr>
+</table>
+</div>
+ 
+<div class="row" style="background-color:#202020;padding:0px;">
+<table class="table" style="margin-bottom: 5px;">
+<tr>
+	<td>
+		<a class="table-menu" href="go:hdtv3.php"><i class=""></i> <b> 🎭การ์ตูน</b></a>
+		
+	</td>
+</tr>
+
+</table>
+</div>
+                             
+						
+
+<div class="row" style="background-color:#202020;padding:0px;">
+<table class="table" style="margin-bottom: 5px;">
+<tr>
+	<td>
+		<a class="table-menu" href="go:hdtv4.php"><i class=""></i> <b> ⚽กีฬา</b></a>
+		
+	</td>
+</tr>
+
+</table>
+</div>
+                             
+						
+<div class="row" style="background-color:#202020;padding:0px;">
+<table class="table" style="margin-bottom: 5px;">
+<tr>
+	<td>
+		<a class="table-menu" href="go:hdtv5.php"><i class=""></i> <b> 🎬ภาพยนต์</b></a>
+		
+	</td>
+</tr>
+
+</table>
+</div>
+                             
+						
+
+<div class="row" style="background-color:#202020;padding:0px;">
+<table class="table" style="margin-bottom: 5px;">
+<tr>
+	<td>
+		<a class="table-menu" href="go:hdtv.6.php"><i class=""></i> <b> 🎞️วาไรตี้</b></a>
+		
+	</td>
+</tr>
+
+</table>
+</div>
+                             
+						
+
+<div class="row" style="background-color:#202020;padding:0px;">
+<table class="table" style="margin-bottom: 5px;">
+<tr>
+	<td>
+		<a class="table-menu" href="go:hdtv7.php"><i class=""></i> <b> 🐧สารคดี</b></a>
+		
+	</td>
+</tr>
+
+</table>
+</div>
+                             
+					
+
+<div class="row" style="background-color:#202020;padding:0px;">
+<table class="table" style="margin-bottom: 5px;">
+<tr>
+	<td>
+		<a class="table-menu" href="go:hdtv9.php"><i class=""></i> <b> 🌐ต่างประเทศ</b></a>
+		
+	</td>
+</tr>
+
+</table>
+</div>
+   
+            </div>
+        </div>  
+
+<div class="col-lg-9 col-md-9 col-xs-9" style="width:80%;padding-left:0px;padding-right:10px;">
+        <div class="row">
+        <div class="col-lg-12 col-md-12 col-xs-12">
+								
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418185850ch5hd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:ch5hd'"  autofocus="">	
+			</div>
+		</div>	
+
+<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418185850ch5hd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/ch5.html'"  autofocus="">	
+			</div>
+		</div>	
+		
+		<div class="movie col-4 col-md-3 col-xl-2">
+			
+
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191323nbthd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:nbt2'"  autofocus="">	
+			</div>
+		</div>	
+		<div class="movie col-4 col-md-3 col-xl-2">
+			
+
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191323nbthd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/nbt2.html'"  autofocus="">	
+			</div>
+		</div>			
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191223tpbshd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:thaipbs'" autofocus="">	
+
+			</div>
+		</div>				
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191223tpbshd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/thaipbs.html'" autofocus="">	
+
+			</div>
+		</div>				
+				<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191939tptv.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:tptv'" autofocus="">	
+
+			</div>
+		</div>			
+				<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191939tptv.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/tptv.html'" autofocus="">	
+
+			</div>
+		</div>			
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418190014TNN16.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:tnn16'" autofocus="">	
+					
+			</div>
+		</div>	
+<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418190014TNN16.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/tnn16.html'" autofocus="">	
+					
+			</div>
+		</div>			
+				<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191153JKN18.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:jkn18'" autofocus="">	
+				</div>
+		</div>	
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191153JKN18.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/jkn18.html'" autofocus="">	
+				</div>
+		</div>			
+	<div class="movie col-4 col-md-3 col-xl-2">
+	<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418192308Nation1.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go: nation'" autofocus="">	
+	
+			</div>
+		</div>		
+<div class="movie col-4 col-md-3 col-xl-2">
+<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418192308Nation1.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/nation.html'" autofocus="">	
+		</div>
+		</div>		
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418190941Workpoint.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:wp'" autofocus="">	
+		</div>
+		</div>			
+			<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418190941Workpoint.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/wp.html'" autofocus="">	
+	
+			</div>
+		</div>			
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418190115True4u.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:true4u'" autofocus="">	
+			</div>
+		</div>			
+			<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418190115True4u.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/true4u.html'" autofocus="">	
+			</div>
+		</div>			
+					<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418190128gmmchannel.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:gmm25'" autofocus="">	
+			</div>
+		</div>		
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418190128gmmchannel.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/gmm25.html'" autofocus="">	
+			</div>
+		</div>			
+		
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191335ch8.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:ch8'" autofocus="">		</div>
+		</div>			
+				<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191335ch8.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/ch8.html'" autofocus="">		</div>
+		</div>			
+		
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191023mono29.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:mono29'" autofocus="">	
+			</div>
+		</div>			
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191023mono29.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/mono29.html'" autofocus="">	
+			</div>
+		</div>			
+
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191042mcothd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:mcot'" autofocus="">	
+			</div>
+		</div>		
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191042mcothd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/mcothd.html'" autofocus="">	
+			</div>
+		</div>			
+
+	
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191350onehd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:one31'" autofocus="">	
+					</div>
+		</div>			
+			<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191350onehd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/one31.html'" autofocus="">	
+					</div>
+		</div>			
+	
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191057thairahttvhd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:thairath'" autofocus="">	
+			</div>
+		</div>		
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191057thairahttvhd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/thairathtv.html'" autofocus="">	
+			</div>
+		</div>			
+	<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191821ch3hd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:ch3hd'" autofocus="">	
+			</div>
+		</div>	
+	<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191821ch3hd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/ch3.html'" autofocus="">	
+			</div>
+		</div>			
+			
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191809amarintvhd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:amarin'" autofocus="">	
+	
+			</div>
+		</div>
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191809amarintvhd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/amarin.html'" autofocus="">	
+	
+			</div>
+		</div>					
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418185909ch7hd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:ch7hd'" autofocus="">	
+			</div>
+		</div>		
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418185909ch7hd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/ch7.html'" autofocus="">	
+			</div>
+		</div>			
+		<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191253pptvhd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='go:pptv'" autofocus="">			</div>
+		</div>			
+	
+			<div class="movie col-4 col-md-3 col-xl-2">
+			<div class="movie-box">
+					<input class="btn" type="button" style="background-size:cover;background-image:url(https://img.inwiptv.net/postor/20240418191253pptvhd.jpg);width:140px;height:100.45px;background-position: center center;" onclick="window.location.href='https://m3u-lime.vercel.app/stream/3bbtv/pptv.html'" autofocus="">
+</div>
+		</div>			
+	
+
+
+                                                                        
+</div>
+</div>
+</div>  
+</div> 
+</form>      
+</div>
+</div>
+</div>
+</div>
+<!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4889809,4,10,200,40,00011111']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+_Hasync.push(['Histats.framed_page', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4889809&101" alt="" border="0"></a></noscript>
+<!-- Histats.com  END  -->
