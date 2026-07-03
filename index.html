@@ -81,12 +81,6 @@
             font-family: 'Sarabun', sans-serif;
         }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
-        }
-
         .quiz-item {
             background: #f8f9fa;
             padding: 20px;
@@ -186,7 +180,6 @@
             border-color: var(--danger-color) !important;
         }
         
-        /* ซ่อน iframe ลับที่ใช้สำหรับส่งข้อมูลเบื้องหลังบน GitHub */
         #hidden_iframe {
             display: none;
         }
@@ -200,10 +193,9 @@
 
     <div id="result" class="result-box"></div>
 
-    <!-- ส่วนส่งข้อมูลลับเพื่อรองรับ GitHub Pages (ส่งไปยัง iframe ซ่อนเพื่อไม่ให้หน้าเว็บรีเฟรช) -->
+    <!-- iframe ซ่อนสำหรับรับผลลัพธ์จาก Google Form ไม่ให้รีเฟรชหน้า -->
     <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
 
-    <!-- ตั้งเป้าหมายการส่ง form ไปที่ iframe ลับ -->
     <form id="quizForm" method="POST" target="hidden_iframe">
         <!-- ข้อมูลส่วนตัว -->
         <div class="user-info-box">
@@ -211,19 +203,23 @@
             <div class="form-group-grid">
                 <div class="form-group">
                     <label for="firstName">ชื่อ:</label>
-                    <input type="text" id="firstName" name="firstName" placeholder="กรอกชื่อจริง" required>
+                    <input type="text" id="firstName" placeholder="กรอกชื่อจริง" required>
                 </div>
                 <div class="form-group">
                     <label for="lastName">นามสกุล:</label>
-                    <input type="text" id="lastName" name="lastName" placeholder="กรอกนามสกุล" required>
+                    <input type="text" id="lastName" placeholder="กรอกนามสกุล" required>
                 </div>
                 <div class="form-group">
                     <label for="subdistrict">ตำบล:</label>
-                    <input type="text" id="subdistrict" name="subdistrict" placeholder="กรอกชื่อตำบล" required>
+                    <input type="text" id="subdistrict" placeholder="กรอกชื่อตำบล" required>
                 </div>
             </div>
-            <!-- input ลับสำหรับส่งคะแนน -->
-            <input type="hidden" id="scoreInput" name="score" value="0">
+            
+            <!-- ช่อง Input ลับที่ต้องผูกชื่อ 'name' ตรงกับ ID ของ Google Form ของคุณ -->
+            <input type="hidden" id="form_firstName" name="entry.XXXXXX1" value="">
+            <input type="hidden" id="form_lastName" name="entry.XXXXXX2" value="">
+            <input type="hidden" id="form_subdistrict" name="entry.XXXXXX3" value="">
+            <input type="hidden" id="form_score" name="entry.XXXXXX4" value="">
         </div>
 
         <!-- ข้อ 1 - 10 -->
@@ -243,11 +239,11 @@
 </div>
 
 <script>
-    // ⚠️ คัดลอก URL เว็บแอปใหม่จาก Google Apps Script มาใส่ตรงนี้ครับ
-    const WEB_APP_URL = "https://docs.google.com/spreadsheets/d/1S5LETpICWFwkz70lvY_t2ww96B9tyDo7ZwAZ9oxxJp0/edit?usp=drivesdk";
-
-    // ใส่ URL ลงในตัวฟอร์มโดยอัตโนมัติ
-    document.getElementById('quizForm').action = WEB_APP_URL;
+    // ⚠️ 1. นำลิงก์ Google Form ของคุณ (ที่เปลี่ยนเป็น /formResponse แล้ว) มาใส่ตรงนี้
+    const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScGb0X_NmVogie8Rdocb9lYaLQpykqBxSNEWYFKe6rykFUAoQ/formResponse";
+    
+    // ใส่ลิงก์ลงฟอร์ม
+    document.getElementById('quizForm').action = GOOGLE_FORM_URL;
 
     const solutions = {
         1: { ans: "ข", desc: "เฉลย ข. ข่าวปลอมคือข้อมูลที่จงใจสร้างขึ้นมาเพื่อบิดเบือนหรือหลอกลวงให้ผู้อื่นหลงเชื่อ" },
@@ -276,7 +272,7 @@
         const totalQuestions = 10;
         const form = document.getElementById('quizForm');
 
-        // ตรวจและเปลี่ยนสีเฉลยให้เด็กเห็นทันที
+        // ตรวจสอบคะแนนและแสดงเฉลย
         for (let i = 1; i <= totalQuestions; i++) {
             const selectedOpt = form.querySelector(`input[name="q${i}"]:checked`);
             const quizItem = document.querySelector(`.quiz-item[data-q="${i}"]`);
@@ -311,16 +307,19 @@
             }
         }
 
-        // นำคะแนนใส่ลงในช่องแอบส่ง
-        document.getElementById('scoreInput').value = score;
+        // นำค่าไปใส่ในช่องยิงข้อมูลเข้า Google Form ลับก่อนส่ง
+        document.getElementById('form_firstName').value = fName;
+        document.getElementById('form_lastName').value = lName;
+        document.getElementById('form_subdistrict').value = subDist;
+        document.getElementById('form_score').value = score + " / 10";
 
-        // สั่งส่งฟอร์มข้อมูลไปยัง Google Sheets ผ่านช่องทางเบื้องหลัง
+        // ส่งข้อมูลเข้าสู่ระบบ Google Form เบื้องหลัง
         form.submit();
 
-        // แสดงคะแนนสวยๆ ด้านบนหน้าเว็บให้กับผู้เรียนทันที
+        // แสดงกล่องคะแนนให้เด็กดูทันทีบนหน้าเว็บ GitHub Pages ของคุณ
         const resultBox = document.getElementById('result');
         resultBox.innerHTML = `
-            <div class="result-title">🎉 บันทึกข้อมูลและคะแนนเรียบร้อยแล้ว!</div>
+            <div class="result-title">🎉 ส่งคำตอบและบันทึกคะแนนเรียบร้อยแล้ว!</div>
             <div><strong>ผู้เรียน:</strong> คุณ ${fName} ${lName}</div>
             <div><strong>ตำบล:</strong> ${subDist}</div>
             <div style="font-size: 1.4rem; margin-top: 10px; color: var(--success-color);">
@@ -329,12 +328,10 @@
         `;
         resultBox.style.display = 'block';
 
-        // ปิดปุ่มกดเพื่อไม่ให้กดส่งซ้ำ
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
-        submitBtn.innerText = "ส่งคำตอบและบันทึกคะแนนสำเร็จ";
+        submitBtn.innerText = "ส่งคำตอบสำเร็จ";
 
-        // เลื่อนหน้าจอกลับขึ้นไปดูคะแนนด้านบน
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 </script>
