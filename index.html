@@ -191,7 +191,7 @@
     <h1>แบบทดสอบ: รู้ทันข่าวและ Fake News</h1>
     <p class="description">คำชี้แจง: กรอกข้อมูลให้ครบถ้วน ตอบคำถาม และกดส่งเพื่อบันทึกคะแนนเข้าสู่ระบบ</p>
 
-    <!-- ส่วนแสดงคะแนนสรุปผลความสำเร็จเมื่อทำเสร็จ -->
+    <!-- ส่วนแสดงคะแนนสรุปผล -->
     <div id="result" class="result-box"></div>
 
     <form id="quizForm">
@@ -231,6 +231,9 @@
 </div>
 
 <script>
+    // ⚠️ นำลิงก์ Web App URL ที่ได้มาจากขั้นตอนที่ 1 มาวางแทนในเครื่องหมายคำพูดด้านล่างนี้ครับ
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz3Q-d1LCNaqRZfsOo0H07QeC8ZMYX_EcejOpGzBamDspz-QsxA4aGu3Egx0b_y_fwLjA/exec";
+
     const solutions = {
         1: { ans: "ข", desc: "เฉลย ข. ข่าวปลอมคือข้อมูลที่จงใจสร้างขึ้นมาเพื่อบิดเบือนหรือหลอกลวงให้ผู้อื่นหลงเชื่อ" },
         2: { ans: "ค", desc: "เฉลย ค. เมื่อเจอข่าวที่กระตุ้นอารมณ์ ควรหยุดคิดและตรวจสอบข้อมูลจากแหล่งอื่นๆ ก่อนเสมอเพื่อไม่ตกเป็นเหยื่อ" },
@@ -245,7 +248,7 @@
     };
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // บล็อกระบบการส่งฟอร์มดั้งเดิมของบราวเซอร์เพื่อแก้ปัญหาค่าว่าง
+        e.preventDefault();
 
         const fName = document.getElementById('firstName').value.trim();
         const lName = document.getElementById('lastName').value.trim();
@@ -254,7 +257,6 @@
         let score = 0;
         const totalQuestions = 10;
 
-        // วนลูปตรวจข้อสอบและไฮไลท์สี
         for (let i = 1; i <= totalQuestions; i++) {
             const selectedOpt = this.querySelector(`input[name="q${i}"]:checked`);
             const quizItem = document.querySelector(`.quiz-item[data-q="${i}"]`);
@@ -285,28 +287,17 @@
 
         const finalScoreText = score + " / 10";
 
-        // สร้างข้อมูลชุดส่งออกแบบ API (URL-encoded) มั่นใจได้ว่าข้อความไม่หาย
-        const formData = new URLSearchParams();
-        formData.append('entry.2062637951', fName);
-        formData.append('entry.571424682', lName);
-        formData.append('entry.88094285', subDist);
-        formData.append('entry.680879555', finalScoreText);
-
-        // ใช้คำสั่ง fetch ยิงเข้า Google Form ตรงๆ โดยใช้โหมด no-cors เพื่อแก้ปัญหาบราวเซอร์บล็อก
-        fetch('https://docs.google.com/forms/d/e/1FAIpQLScGb0X_NmVogie8Rdocb9lYaLQpykqBxSNEWYFKe6rykFUAoQ/formResponse', {
+        // ส่งข้อมูลตรงไปที่ Google Sheets ทันที ไร้ปัญหาช่องว่างแน่นอน
+        fetch(WEB_APP_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: formData.toString()
-        }).then(() => {
-            console.log('บันทึกข้อมูลเรียบร้อยแล้ว');
-        }).catch((error) => {
-            console.error('เกิดข้อผิดพลาด:', error);
+            body: `firstName=${encodeURIComponent(fName)}&lastName=${encodeURIComponent(lName)}&subdistrict=${encodeURIComponent(subDist)}&score=${encodeURIComponent(finalScoreText)}`
         });
 
-        // แสดงผลสำเร็จสีเขียวบนหน้าจอของเด็กทันที
+        // แสดงคะแนนด้านบน
         const resultBox = document.getElementById('result');
         resultBox.innerHTML = `
             <div class="result-title">🎉 บันทึกข้อมูลและส่งคะแนนเรียบร้อยแล้ว!</div>
@@ -314,16 +305,13 @@
             <div style="font-size: 1.6rem; margin-top: 15px; color: #28a745; font-weight: bold;">
                 คะแนนที่คุณได้คือ: ${finalScoreText} คะแนน
             </div>
-            <p style="font-size: 0.9rem; color: #6c757d; margin-top: 10px; margin-bottom: 0;">ข้อมูลทั้งหมดได้ถูกเข้ารหัสและบันทึกลงฐานข้อมูลแล้ว สามารถตรวจทานเฉลยแต่ละข้อด้านล่างได้เลยครับ</p>
         `;
         resultBox.style.display = 'block';
 
-        // ล็อคปุ่มส่ง
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
         submitBtn.innerText = "ส่งคำตอบสำเร็จแล้ว";
 
-        // เลื่อนขึ้นไปด้านบนสุดเพื่อให้เห็นคะแนน
         window.scrollTo({top: 0, behavior: 'smooth'});
     });
 </script>
