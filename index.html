@@ -3,188 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบทำข้อสอบออนไลน์</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>สื่อการสอน: รู้ทันข่าวและ Fake News</title>
     <style>
-        body { font-family: 'Sarabun', sans-serif; background-color: #f3f4f6; }
-        .quiz-card { display: none; }
-        .quiz-card.active { display: block; }
+        :root {
+            --primary-color: #4a90e2;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --bg-color: #f5f7fa;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .description {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .user-info-box {
+            background: #eef5fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #b4d4f7;
+        }
+
+        .user-info-box h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .form-group-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        .quiz-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .question {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 1px solid #dcdde1;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            background: #eef5fc;
+            border-color: var(--primary-color);
+        }
+
+        .option-label input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: bold;
+        }
+
+        .btn-submit:hover {
+            background: #357abd;
+        }
+
+        .btn-submit:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            display: none;
+            padding: 20px;
+            background: #e8f4fd;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            border-left: 5px solid var(--success-color);
+        }
+
+        .result-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .correct-bg {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+        }
+
+        .incorrect-bg {
+            background-color: #f8d7da !important;
+            border-color: var(--danger-color) !important;
+        }
+        
+        #hidden_iframe {
+            display: none;
+        }
     </style>
 </head>
-<body class="py-10 px-4">
+<body>
 
-    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8">
-        <h1 class="text-2xl font-bold text-center text-blue-600 mb-6">แบบทดสอบออนไลน์</h1>
+<div class="container">
+    <h1>แบบทดสอบ: รู้ทันข่าวและ Fake News</h1>
+    <p class="description">คำชี้แจง: กรอกข้อมูลให้ครบถ้วน ตอบคำถาม และกดส่งเพื่อบันทึกคะแนนเข้าสู่ระบบ</p>
 
-        <!-- ส่วนกรอกข้อมูลผู้สอบ -->
-        <div id="info-section">
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">ชื่อ</label>
-                    <input type="text" id="firstName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="กรอกชื่อ" required>
+    <div id="result" class="result-box"></div>
+
+    <!-- iframe ลับสำหรับใช้บันทึกแบบเบื้องหลังเพื่อรองรับ GitHub Pages -->
+    <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
+
+    <!-- เชื่อมต่อฟอร์มไปยังระบบของ Google Form โดยตรง -->
+    <form id="quizForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScGb0X_NmVogie8Rdocb9lYaLQpykqBxSNEWYFKe6rykFUAoQ/formResponse" target="hidden_iframe">
+        
+        <!-- ส่วนข้อมูลผู้เรียนและ Entry ID อ้างอิงจากแบบฟอร์มจริงของคุณ -->
+        <div class="user-info-box">
+            <h3>ข้อมูลผู้เรียน</h3>
+            <div class="form-group-grid">
+                <div class="form-group">
+                    <label for="firstName">ชื่อ:</label>
+                    <input type="text" id="firstName" placeholder="กรอกชื่อจริง" required>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">นามสกุล</label>
-                    <input type="text" id="lastName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="กรอกนามสกุล" required>
+                <div class="form-group">
+                    <label for="lastName">นามสกุล:</label>
+                    <input type="text" id="lastName" placeholder="กรอกนามสกุล" required>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">ตำบล</label>
-                    <input type="text" id="tambon" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" placeholder="กรอกตำบล" required>
+                <div class="form-group">
+                    <label for="subdistrict">ตำบล:</label>
+                    <input type="text" id="subdistrict" placeholder="กรอกชื่อตำบล" required>
                 </div>
-                <button onclick="startQuiz()" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">เริ่มทำข้อสอบ</button>
-            </div>
-        </div>
-
-        <!-- ส่วนข้อสอบ -->
-        <div id="quiz-section" class="hidden">
-            <form id="quizForm" class="space-y-8">
-                <!-- ตัวอย่างข้อที่ 1 -->
-                <div class="question-item">
-                    <p class="font-semibold text-lg mb-3">1. ข้อใดคือเมืองหลวงของประเทศไทย?</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                            <input type="radio" name="q1" value="ก" class="h-4 w-4 text-blue-600">
-                            <span>ก. เชียงใหม่</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                            <input type="radio" name="q1" value="ข" class="h-4 w-4 text-blue-600">
-                            <span>ข. กรุงเทพมหานคร</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                            <input type="radio" name="q1" value="ค" class="h-4 w-4 text-blue-600">
-                            <span>ค. ภูเก็ต</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- ตัวอย่างข้อที่ 2 -->
-                <div class="question-item">
-                    <p class="font-semibold text-lg mb-3">2. 5 + 5 มีค่าเท่ากับเท่าไหร่?</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                            <input type="radio" name="q2" value="ก" class="h-4 w-4 text-blue-600">
-                            <span>ก. 10</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                            <input type="radio" name="q2" value="ข" class="h-4 w-4 text-blue-600">
-                            <span>ข. 15</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                            <input type="radio" name="q2" value="ค" class="h-4 w-4 text-blue-600">
-                            <span>ค. 20</span>
-                        </label>
-                    </div>
-                </div>
-
-                <button type="button" onclick="submitQuiz()" class="w-full bg-green-600 text-white py-3 rounded-md font-bold hover:bg-green-700 transition">ส่งข้อสอบ</button>
-            </form>
-        </div>
-
-        <!-- ส่วนแสดงผลคะแนนและเฉลย -->
-        <div id="result-section" class="hidden text-center space-y-6">
-            <div class="bg-blue-50 p-6 rounded-lg">
-                <h2 class="text-xl font-bold">ผลคะแนนของคุณ</h2>
-                <p id="score-display" class="text-4xl font-extrabold text-blue-600 my-2">0 / 2</p>
-                <p id="status-message" class="text-gray-600"></p>
             </div>
             
-            <div class="text-left">
-                <h3 class="font-bold text-lg mb-4">เฉลยคำตอบ:</h3>
-                <div id="review-content" class="space-y-4"></div>
-            </div>
-
-            <button onclick="window.location.reload()" class="text-blue-600 underline">ทำใหม่อีกครั้ง</button>
+            <!-- ผูกช่อง Input ลับเข้ากับ Entry ID หลังบ้านจากฟอร์มของคุณสำเร็จรูป -->
+            <input type="hidden" id="form_firstName" name="entry.2062637951" value="">
+            <input type="hidden" id="form_lastName" name="entry.571424682" value="">
+            <input type="hidden" id="form_subdistrict" name="entry.88094285" value="">
+            <input type="hidden" id="form_score" name="entry.680879555" value="">
         </div>
-    </div>
 
-    <script>
-        // ตั้งค่าเฉลยที่นี่
-        const answers = {
-            q1: { correct: "ข", text: "กรุงเทพมหานคร" },
-            q2: { correct: "ก", text: "10" }
-        };
+        <!-- ข้อสอบ 1 - 10 พร้อมตัวเลือก -->
+        <div class="quiz-item" data-q="1"><div class="question">1. ข้อใดคือความหมายที่ถูกต้องที่สุดของ "ข่าวปลอม" (Fake News)?</div><div class="options"><label class="option-label"><input type="radio" name="q1" value="ก"> ก. ข่าวที่เขียนสะกดคำผิดเยอะทำให้เข้าใจคลาดเคลื่อน</label><label class="option-label"><input type="radio" name="q1" value="ข"> ข. ข่าวสารที่ถูกสร้างขึ้นเพื่อบิดเบือนข้อเท็จจริง โดยมีเจตนาหลอกลวง</label><label class="option-label"><input type="radio" name="q1" value="ค"> ค. ข่าวเก่าที่ถูกนำมาเล่าใหม่ในสถานการณ์ปัจจุบัน</label><label class="option-label"><input type="radio" name="q1" value="ง"> ง. ข่าววาไรตี้บันเทิงที่เน้นความสนุกสนาน</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="2"><div class="question">2. สิ่งแรกที่ควรทำเมื่อได้รับข่าวสารที่มีพาดหัวข้อน่าตื่นเต้นและน่าตกใจคืออะไร?</div><div class="options"><label class="option-label"><input type="radio" name="q2" value="ก"> ก. รีบแชร์ลงกลุ่มครอบครัวทันทีเพื่อเตือนภัย</label><label class="option-label"><input type="radio" name="q2" value="ข"> ข. กดไลก์และคอมเมนต์แสดงความคิดเห็นทันที</label><label class="option-label"><input type="radio" name="q2" value="ค"> ค. หยุดคิด ตรวจสอบแหล่งที่มา และหาข้อมูลจากหลายๆ แหล่งก่อน</label><label class="option-label"><input type="radio" name="q2" value="ง"> ง. ลบข่าวนั้นทิ้งทันทีเพราะคิดว่าเป็นข่าวปลอมแน่นอน</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="3"><div class="question">3. ข้อใดจัดเป็นแหล่งข้อมูลที่มีความน่าเชื่อถือมากที่สุดในการตรวจสอบข่าวสาร?</div><div class="options"><label class="option-label"><input type="radio" name="q3" value="ก"> ก. บล็อกส่วนตัวของอินฟลูเอนเซอร์ที่มีผู้ติดตามหลักแสน</label><label class="option-label"><input type="radio" name="q3" value="ข"> ข. เว็บไซต์หน่วยงานราชการ สำนักข่าวหลัก หรือสถาบันวิจัยที่น่าเชื่อถือ</label><label class="option-label"><input type="radio" name="q3" value="ค"> ค. ข้อความที่ส่งต่อกันมาในไลน์ (Line) โดยไม่ระบุชื่อผู้เขียน</label><label class="option-label"><input type="radio" name="q3" value="ง"> ง. โพสต์จากบัญชีอวตารที่ไม่เปิดเผยตัวตนใน Twitter (X)</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="4"><div class="question">4. ข่าวปลอมประเภท "Clickbait" มักมีลักษณะเด่นอย่างไร?</div><div class="options"><label class="option-label"><input type="radio" name="q4" value="ก"> ก. ใช้พาดหัวข่าวกินใจ เกินจริง เพื่อดึงดูดให้คนกดเข้าไปดูเพื่อยอดวิว</label><label class="option-label"><input type="radio" name="q4" value="ข"> ข. เป็นบทความวิชาการที่มีศัพท์ภาษาอังกฤษจำนวนมาก</label><label class="option-label"><input type="radio" name="q4" value="ค"> ค. มีการแนบหลักฐานและรูปภาพประกอบอย่างละเอียด</label><label class="option-label"><input type="radio" name="q4" value="ง"> ง. เป็นข่าวที่มีเฉพาะการกระจายเสียงในวิทยุเท่านั้น</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="5"><div class="question">5. "Deepfake" ที่มักถูกใช้ในการทำข่าวปลอมยุคใหม่หมายถึงเทคโนโลยีใด?</div><div class="options"><label class="option-label"><input type="radio" name="q5" value="ก"> ก. การแปลภาษาจากต่างประเทศโดยใช้พจนานุกรม</label><label class="option-label"><input type="radio" name="q5" value="ข"> ข. การใช้ AI ตัดต่อภาพหรือใบหน้าและเสียงของบุคคลให้ดูเหมือนจริง</label><label class="option-label"><input type="radio" name="q5" value="ค"> ค. การกู้คืนข้อมูลที่ถูกลบไปแล้วในอดีต</label><label class="option-label"><input type="radio" name="q5" value="ง"> ง. การสร้างเว็บไซต์เลียนแบบธนาคารเพื่อขโมยรหัสผ่าน</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="6"><div class="question">6. การตรวจสอบ "URL" หรือที่อยู่เว็บไซต์ ช่วยป้องกันข่าวปลอมได้อย่างไร?</div><div class="options"><label class="option-label"><input type="radio" name="q6" value="ก"> ก. ช่วยเช็กว่าอินเทอร์เน็ตของเรามีความเร็วเท่าไหร่</label><label class="option-label"><input type="radio" name="q6" value="ข"> ข. ช่วยตรวจสอบว่าเราพิมพ์ตัวอักษรภาษาไทยถูกต้องหรือไม่</label><label class="option-label"><input type="radio" name="q6" value="ค"> ค. ช่วยสังเกตเว็บไซต์ปลอมที่มักลอกเลียนแบบชื่อสำนักข่าวหลักแต่สะกดต่างกันเล็กน้อย</label><label class="option-label"><input type="radio" name="q6" value="ง"> ง. ช่วยค้นหาเบอร์โทรศัพท์ของผู้เขียนข่าว</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="7"><div class="question">7. หากนักเรียนพบข่าวปลอมที่มีลักษณะหลอกลวงเพื่อเอาเงิน หรือสร้างความตื่นตระหนกในวงกว้าง ควรแจ้งหน่วยงานใด?</div><div class="options"><label class="option-label"><input type="radio" name="q7" value="ก"> ก. กรมอุตุนิยมวิทยา</label><label class="option-label"><input type="radio" name="q7" value="ข"> ข. ศูนย์ต่อต้านข่าวปลอม ประเทศไทย (Anti-Fake News Center)</label><label class="option-label"><input type="radio" name="q7" value="ค"> ค. กระทรวงการต่างประเทศ</label><label class="option-label"><input type="radio" name="q7" value="ง"> ง. สถาบันอาหาร</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="8"><div class="question">8. เหตุใดบุคคลทั่วไปจึงไม่ควรแชร์ "ข่าวปลอม" แม้จะแชร์ด้วยความหวังดีก็ตาม?</div><div class="options"><label class="option-label"><input type="radio" name="q8" value="ก"> ก. เพราะอาจสร้างความเข้าใจผิด ความตื่นตระหนก และอาจมีความผิดตาม พ.ร.บ.คอมพิวเตอร์ฯ</label><label class="option-label"><input type="radio" name="q8" value="ข"> ข. เพราะจะทำให้โทรศัพท์มือถือเครื่องช้าลงและติดไวรัส</label><label class="option-label"><input type="radio" name="q8" value="ค"> ค. เพราะจะทำให้ยอดผู้ติดตามในโซเชียลมีเดียลดลงทันที</label><label class="option-label"><input type="radio" name="q8" value="ง"> ง. เพราะไม่มีผลเสียใดๆ ความหวังดีสำคัญที่สุด</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="9"><div class="question">9. วิธีการใดใช้ตรวจสอบ "รูปภาพ" ที่แนบมากับข่าวว่าสอดคล้องกับความจริงในอดีตหรือไม่?</div><div class="options"><label class="option-label"><input type="radio" name="q9" value="ก"> ก. การเพิ่มความสว่างของหน้าจอโทรศัพท์</label><label class="option-label"><input type="radio" name="q9" value="ข"> ข. การนำภาพไปใช้เทคนิค "Reverse Image Search" (ค้นหาด้วยรูปภาพ) ใน Google</label><label class="option-label"><input type="radio" name="q9" value="ค"> ค. การแชร์ภาพไปให้เพื่อนหลายๆ คนช่วยดูกัน</label><label class="option-label"><input type="radio" name="q9" value="ง"> ง. การตัดต่อภาพนั้นซ้ำอีกรอบเพื่อเปรียบเทียบ</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="10"><div class="question">10. หลักการ "คิดก่อนแชร์" (Think Before You Share) ข้อใดสะท้อนการมีภูมิคุ้มกันสื่อที่ดีที่สุด?</div><div class="options"><label class="option-label"><input type="radio" name="q10" value="ก"> ก. ใครแชร์มาเราก็แชร์ต่อเพราะเป็นมารยาท</label><label class="option-label"><input type="radio" name="q10" value="ข"> ข. เชื่อทุกอย่างที่เห็นถ้าคนเขียนใช้คำพูดสุภาพ</label><label class="option-label"><input type="radio" name="q10" value="ค"> ค. ตระหนักรู้ สงสัย ตรวจสอบความถูกต้อง และประเมินผลกระทบก่อนส่งต่อ</label><label class="option-label"><input type="radio" name="q10" value="ง"> ง. เลือกแชร์เฉพาะข่าวที่ตรงกับความชอบหรือความเชื่อส่วนตัวเท่านั้น</label></div><div class="explanation"></div></div>
 
-        // URL สำหรับส่ง Google Form (ต้องเปลี่ยน /viewform เป็น /formResponse)
-        const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScGb0X_NmVogie8Rdocb9lYaLQpykqBxSNEWYFKe6rykFUAoQ/formResponse";
+        <button type="button" id="submitBtn" class="btn-submit" onclick="checkAndSubmit()">ส่งคำตอบและบันทึกคะแนน</button>
+    </form>
+</div>
 
-        // ** สำคัญ: ต้องหา Entry ID ของแต่ละช่องใน Google Form ของคุณมาใส่ที่นี่ **
-        const ENTRY_IDS = {
-            firstName: "entry.123456789", // เปลี่ยนเลขเหล่านี้
-            lastName: "entry.987654321",  // เปลี่ยนเลขเหล่านี้
-            tambon: "entry.112233445",    // เปลี่ยนเลขเหล่านี้
-            score: "entry.556677889"      // เปลี่ยนเลขเหล่านี้
-        };
+<script>
+    const solutions = {
+        1: { ans: "ข", desc: "เฉลย ข. ข่าวปลอมคือข้อมูลที่จงใจสร้างขึ้นมาเพื่อบิดเบือนหรือหลอกลวงให้ผู้อื่นหลงเชื่อ" },
+        2: { ans: "ค", desc: "เฉลย ค. เมื่อเจอข่าวที่กระตุ้นอารมณ์ ควรหยุดคิดและตรวจสอบข้อมูลจากแหล่งอื่นๆ ก่อนเสมอเพื่อไม่ตกเป็นเหยื่อ" },
+        3: { ans: "ข", desc: "เฉลย ข. หน่วยงานราชการ สำนักข่าวหลัก และสถาบันวิจัย มีกระบวนการกลั่นกรองข้อมูลที่เป็นระบบและน่าเชื่อถือที่สุด" },
+        4: { ans: "ก", desc: "เฉลย ก. Clickbait คือการใช้พาดหัวข่าวล่อแหลม เกินจริง หรือชวนสงสัย เพื่อดึงคนให้กดคลิกเข้าไปดู" },
+        5: { ans: "ข", desc: "เฉลย ข. Deepfake เป็นเทคโนโลยี AI ขั้นสูงที่สามารถตัดต่อภาพใบหน้าและเสียงของบุคคลได้อย่างแนบเนียน" },
+        6: { ans: "ค", desc: "เฉลย ค. เว็บไซต์ข่าวปลอมมักตั้งชื่อ URL ให้ใกล้เคียงกับเว็บจริง เช่น เปลี่ยนตัวอักษรบางตัวเพื่อหลอกตา" },
+        7: { ans: "ข", desc: "เฉลย ข. ศูนย์ต่อต้านข่าวปลอม ประเทศไทย เป็นหน่วยงานโดยตรงในการรับแจ้งและตรวจสอบข่าวปลอมบนโลกออนไลน์" },
+        8: { ans: "ก", desc: "เฉลย ก. การแชร์ข่าวปลอมมีความผิดตาม พ.ร.บ.คอมพิวเตอร์ฯ และสร้างความตื่นตระหนกหรือความเสียหายแก่สังคม" },
+        9: { ans: "ข", desc: "เฉลย ข. Reverse Image Search ช่วยให้เราค้นหาได้ว่าภาพนั้นเคยถูกโพสต์ที่ไหน เมื่อไหร่ และเกี่ยวกับอะไรในอดีต" },
+        10: { ans: "ค", desc: "เฉลย ค. การคิดก่อนแชร์ที่ดีที่สุดคือการรู้จักสงสัย ตรวจสอบข้อเท็จจริง และคิดถึงผลกระทบที่จะตามมากก่อนทุกครั้ง" }
+    };
 
-        function startQuiz() {
-            const fName = document.getElementById('firstName').value;
-            const lName = document.getElementById('lastName').value;
-            const tambon = document.getElementById('tambon').value;
+    function checkAndSubmit() {
+        const fName = document.getElementById('firstName').value.trim();
+        const lName = document.getElementById('lastName').value.trim();
+        const subDist = document.getElementById('subdistrict').value.trim();
 
-            if (!fName || !lName || !tambon) {
-                alert("กรุณากรอกข้อมูลให้ครบถ้วนก่อนเริ่ม");
-                return;
+        if (!fName || !lName || !subDist) {
+            alert("กรุณากรอก ชื่อ นามสกุล และตำบล ให้ครบถ้วนก่อนส่งคำตอบครับ");
+            return;
+        }
+
+        let score = 0;
+        const totalQuestions = 10;
+        const form = document.getElementById('quizForm');
+
+        // แสดงผลตรวจคำตอบแบบรายข้อ (สีเขียวคือถูก สีแดงคือผิด)
+        for (let i = 1; i <= totalQuestions; i++) {
+            const selectedOpt = form.querySelector(`input[name="q${i}"]:checked`);
+            const quizItem = document.querySelector(`.quiz-item[data-q="${i}"]`);
+            const expDiv = quizItem.querySelector('.explanation');
+            const allLabels = quizItem.querySelectorAll('.option-label');
+
+            allLabels.forEach(label => label.classList.remove('correct-bg', 'incorrect-bg'));
+            expDiv.innerHTML = solutions[i].desc;
+            expDiv.style.display = 'block';
+
+            if (selectedOpt) {
+                const userAns = selectedOpt.value;
+                if (userAns === solutions[i].ans) {
+                    score++;
+                    selectedOpt.parentElement.classList.add('correct-bg');
+                    expDiv.style.color = '#155724';
+                    expDiv.style.backgroundColor = '#d4edda';
+                } else {
+                    selectedOpt.parentElement.classList.add('incorrect-bg');
+                    expDiv.style.color = '#721c24';
+                    expDiv.style.backgroundColor = '#f8d7da';
+                    allLabels.forEach(label => {
+                        if (label.innerText.trim().startsWith(solutions[i].ans)) label.classList.add('correct-bg');
+                    });
+                }
+            } else {
+                expDiv.style.color = '#721c24';
+                expDiv.style.backgroundColor = '#f8d7da';
+                allLabels.forEach(label => {
+                    if (label.innerText.trim().startsWith(solutions[i].ans)) label.classList.add('correct-bg');
+                });
             }
-            document.getElementById('info-section').classList.add('hidden');
-            document.getElementById('quiz-section').classList.remove('hidden');
-            window.scrollTo(0,0);
         }
 
-        async function submitQuiz() {
-            const form = document.getElementById('quizForm');
-            const formData = new FormData(form);
-            let score = 0;
-            let total = Object.keys(answers).length;
-            let reviewHtml = "";
+        // นำค่าไปใส่ในช่องยิงข้อมูลแบบฟอร์มเบื้องหลัง
+        document.getElementById('form_firstName').value = fName;
+        document.getElementById('form_lastName').value = lName;
+        document.getElementById('form_subdistrict').value = subDist;
+        document.getElementById('form_score').value = score + " / 10";
 
-            // ตรวจสอบคะแนนและสร้างเฉลย
-            for (let [key, value] of Object.entries(answers)) {
-                const userAns = formData.get(key);
-                const isCorrect = userAns === value.correct;
-                if (isCorrect) score++;
+        // ส่งข้อมูลเข้าเซิร์ฟเวอร์ Google Form
+        form.submit();
 
-                reviewHtml += `
-                    <div class="p-3 border rounded ${isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}">
-                        <p class="font-medium">${key.replace('q', 'ข้อที่ ')}: ${isCorrect ? '✅ ถูกต้อง' : '❌ ผิด'}</p>
-                        <p class="text-sm text-gray-600">คำตอบที่ถูกต้องคือ: ${value.correct}. ${value.text}</p>
-                    </div>
-                `;
-            }
+        // แสดงคะแนนด้านบนหน้าจอเว็บของเด็กทันที
+        const resultBox = document.getElementById('result');
+        resultBox.innerHTML = `
+            <div class="result-title">🎉 ส่งคำตอบและบันทึกคะแนนเรียบร้อยแล้ว!</div>
+            <div><strong>ผู้เรียน:</strong> คุณ ${fName} ${lName}</div>
+            <div><strong>ตำบล:</strong> ${subDist}</div>
+            <div style="font-size: 1.4rem; margin-top: 10px; color: var(--success-color);">
+                <strong>ได้คะแนนรวม:</strong> ${score} / ${totalQuestions} คะแนน
+            </div>
+        `;
+        resultBox.style.display = 'block';
 
-            // แสดงผลบนหน้าเว็บทันที
-            document.getElementById('quiz-section').classList.add('hidden');
-            document.getElementById('result-section').classList.remove('hidden');
-            document.getElementById('score-display').innerText = `${score} / ${total}`;
-            document.getElementById('review-content').innerHTML = reviewHtml;
-            window.scrollTo(0,0);
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "ส่งคำตอบสำเร็จ";
 
-            // ส่งข้อมูลไป Google Form (Background)
-            sendToGoogleForm(score);
-        }
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+</script>
 
-        function sendToGoogleForm(score) {
-            const fName = document.getElementById('firstName').value;
-            const lName = document.getElementById('lastName').value;
-            const tambon = document.getElementById('tambon').value;
-
-            const params = new URLSearchParams();
-            params.append(ENTRY_IDS.firstName, fName);
-            params.append(ENTRY_IDS.lastName, lName);
-            params.append(ENTRY_IDS.tambon, tambon);
-            params.append(ENTRY_IDS.score, score);
-
-            // ส่งแบบ no-cors เพื่อไม่ให้ติดปัญหา Security แต่ข้อมูลจะเข้า Form ปกติ
-            fetch(FORM_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: params.toString()
-            }).then(() => {
-                console.log("Data sent to Google Form successfully");
-            }).catch(err => {
-                console.error("Error sending data:", err);
-            });
-        }
-    </script>
 </body>
 </html>
+
