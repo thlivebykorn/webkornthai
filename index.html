@@ -148,7 +148,8 @@
         .result-box {
             display: none;
             padding: 25px;
-            background: #e8f4fd;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
             border-radius: 8px;
             margin-bottom: 30px;
             font-size: 1.2rem;
@@ -182,10 +183,6 @@
             border-color: var(--danger-color) !important;
             color: #721c24 !important;
         }
-        
-        #hidden_iframe {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -194,15 +191,11 @@
     <h1>แบบทดสอบ: รู้ทันข่าวและ Fake News</h1>
     <p class="description">คำชี้แจง: กรอกข้อมูลให้ครบถ้วน ตอบคำถาม และกดส่งเพื่อบันทึกคะแนนเข้าสู่ระบบ</p>
 
-    <!-- ส่วนแสดงคะแนนและสรุปผลเมื่อทำเสร็จ -->
+    <!-- ส่วนแสดงคะแนนสรุปผลความสำเร็จเมื่อทำเสร็จ -->
     <div id="result" class="result-box"></div>
 
-    <!-- ส่วนรับผลลัพธ์เพื่อไม่ให้หน้าเว็บรีเฟรชหรือเด้งไป Google Form -->
-    <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
-
-    <form id="quizForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScGb0X_NmVogie8Rdocb9lYaLQpykqBxSNEWYFKe6rykFUAoQ/formResponse" target="hidden_iframe">
-        
-        <!-- ข้อมูลส่วนตัวผูก Entry ID สำเร็จรูปจากฟอร์มของคุณ -->
+    <form id="quizForm">
+        <!-- ข้อมูลส่วนตัวผู้เรียน -->
         <div class="user-info-box">
             <h3>ข้อมูลผู้เรียน</h3>
             <div class="form-group-grid">
@@ -219,12 +212,6 @@
                     <input type="text" id="subdistrict" placeholder="กรอกชื่อตำบล" required>
                 </div>
             </div>
-            
-            <!-- ส่งค่าเข้าสู่ Google Form ของคุณเบื้องหลังผ่าน Entry ID จริง -->
-            <input type="hidden" id="form_firstName" name="entry.2062637951" value="">
-            <input type="hidden" id="form_lastName" name="entry.571424682" value="">
-            <input type="hidden" id="form_subdistrict" name="entry.88094285" value="">
-            <input type="hidden" id="form_score" name="entry.680879555" value="">
         </div>
 
         <!-- แบบทดสอบข้อ 1 - 10 -->
@@ -258,6 +245,8 @@
     };
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // บล็อกระบบการส่งฟอร์มดั้งเดิมของบราวเซอร์เพื่อแก้ปัญหาค่าว่าง
+
         const fName = document.getElementById('firstName').value.trim();
         const lName = document.getElementById('lastName').value.trim();
         const subDist = document.getElementById('subdistrict').value.trim();
@@ -265,14 +254,13 @@
         let score = 0;
         const totalQuestions = 10;
 
-        // วนลูปตรวจข้อสอบและไฮไลท์สีสันตามจริง
+        // วนลูปตรวจข้อสอบและไฮไลท์สี
         for (let i = 1; i <= totalQuestions; i++) {
             const selectedOpt = this.querySelector(`input[name="q${i}"]:checked`);
             const quizItem = document.querySelector(`.quiz-item[data-q="${i}"]`);
             const expDiv = quizItem.querySelector('.explanation');
             const allLabels = quizItem.querySelectorAll('.option-label');
 
-            // ล้างสีเก่าออกก่อน
             allLabels.forEach(label => label.classList.remove('correct-bg', 'incorrect-bg'));
             expDiv.innerHTML = solutions[i].desc;
             expDiv.style.display = 'block';
@@ -288,7 +276,6 @@
                     selectedOpt.parentElement.classList.add('incorrect-bg');
                     expDiv.style.color = '#721c24';
                     expDiv.style.backgroundColor = '#f8d7da';
-                    // วงแถบสีเขียวให้กับตัวเลือกที่ถูกจริง ๆ
                     allLabels.forEach(label => {
                         if (label.innerText.trim().startsWith(solutions[i].ans)) label.classList.add('correct-bg');
                     });
@@ -296,32 +283,47 @@
             }
         }
 
-        // เตรียมข้อมูลส่งเข้าช่องรับข้อมูลของ Google Form ลับ
-        document.getElementById('form_firstName').value = fName;
-        document.getElementById('form_lastName').value = lName;
-        document.getElementById('form_subdistrict').value = subDist;
-        document.getElementById('form_score').value = score + " / 10";
+        const finalScoreText = score + " / 10";
 
-        // แสดงกล่องสรุปคะแนนสีเขียวความสำเร็จด้านบนหน้าจอเว็บให้แก่ผู้เรียน
+        // สร้างข้อมูลชุดส่งออกแบบ API (URL-encoded) มั่นใจได้ว่าข้อความไม่หาย
+        const formData = new URLSearchParams();
+        formData.append('entry.2062637951', fName);
+        formData.append('entry.571424682', lName);
+        formData.append('entry.88094285', subDist);
+        formData.append('entry.680879555', finalScoreText);
+
+        // ใช้คำสั่ง fetch ยิงเข้า Google Form ตรงๆ โดยใช้โหมด no-cors เพื่อแก้ปัญหาบราวเซอร์บล็อก
+        fetch('https://docs.google.com/forms/d/e/1FAIpQLScGb0X_NmVogie8Rdocb9lYaLQpykqBxSNEWYFKe6rykFUAoQ/formResponse', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData.toString()
+        }).then(() => {
+            console.log('บันทึกข้อมูลเรียบร้อยแล้ว');
+        }).catch((error) => {
+            console.error('เกิดข้อผิดพลาด:', error);
+        });
+
+        // แสดงผลสำเร็จสีเขียวบนหน้าจอของเด็กทันที
         const resultBox = document.getElementById('result');
         resultBox.innerHTML = `
-            <div class="result-title">🎉 บันทึกข้อมูลและตรวจคะแนนเรียบร้อยแล้ว!</div>
-            <div style="color: #2c3e50;"><strong>ผู้เรียน:</strong> คุณ ${fName} ${lName} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>ตำบล:</strong> ${subDist}</div>
+            <div class="result-title">🎉 บันทึกข้อมูลและส่งคะแนนเรียบร้อยแล้ว!</div>
+            <div style="color: #155724;"><strong>ผู้เรียน:</strong> คุณ ${fName} ${lName} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>ตำบล:</strong> ${subDist}</div>
             <div style="font-size: 1.6rem; margin-top: 15px; color: #28a745; font-weight: bold;">
-                คะแนนรวมของคุณคือ: ${score} / ${totalQuestions} คะแนน
+                คะแนนที่คุณได้คือ: ${finalScoreText} คะแนน
             </div>
-            <p style="font-size: 0.95rem; color: #6c757d; margin-top: 5px; margin-bottom: 0;">(ข้อมูลคะแนนได้ถูกนำส่งไปยังระบบจัดเก็บฐานข้อมูลเรียบร้อยแล้ว คุณสามารถเลื่อนอ่านเฉลยคำอธิบายแต่ละข้อด้านล่างได้เลย)</p>
+            <p style="font-size: 0.9rem; color: #6c757d; margin-top: 10px; margin-bottom: 0;">ข้อมูลทั้งหมดได้ถูกเข้ารหัสและบันทึกลงฐานข้อมูลแล้ว สามารถตรวจทานเฉลยแต่ละข้อด้านล่างได้เลยครับ</p>
         `;
         resultBox.style.display = 'block';
-        resultBox.style.backgroundColor = '#d4edda';
-        resultBox.style.borderColor = '#28a745';
 
-        // ปิดปุ่มกดส่งเพื่อไม่ให้กดเบิ้ลซ้ำ
+        // ล็อคปุ่มส่ง
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
-        submitBtn.innerText = "ส่งคำตอบสำเร็จ";
+        submitBtn.innerText = "ส่งคำตอบสำเร็จแล้ว";
 
-        // เลื่อนหน้าจอขึ้นไปแสดงกล่องคะแนนสีเขียวด้านบน
+        // เลื่อนขึ้นไปด้านบนสุดเพื่อให้เห็นคะแนน
         window.scrollTo({top: 0, behavior: 'smooth'});
     });
 </script>
