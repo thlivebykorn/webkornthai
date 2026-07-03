@@ -147,18 +147,18 @@
 
         .result-box {
             display: none;
-            padding: 20px;
+            padding: 25px;
             background: #e8f4fd;
             border-radius: 8px;
             margin-bottom: 30px;
             font-size: 1.2rem;
-            border-left: 5px solid var(--success-color);
+            border-left: 6px solid var(--success-color);
         }
 
         .result-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            color: var(--primary-color);
+            color: #155724;
             margin-bottom: 10px;
         }
 
@@ -168,16 +168,19 @@
             padding: 12px;
             border-radius: 6px;
             font-size: 0.95rem;
+            font-weight: bold;
         }
 
         .correct-bg {
             background-color: #d4edda !important;
             border-color: var(--success-color) !important;
+            color: #155724 !important;
         }
 
         .incorrect-bg {
             background-color: #f8d7da !important;
             border-color: var(--danger-color) !important;
+            color: #721c24 !important;
         }
         
         #hidden_iframe {
@@ -191,15 +194,15 @@
     <h1>แบบทดสอบ: รู้ทันข่าวและ Fake News</h1>
     <p class="description">คำชี้แจง: กรอกข้อมูลให้ครบถ้วน ตอบคำถาม และกดส่งเพื่อบันทึกคะแนนเข้าสู่ระบบ</p>
 
+    <!-- ส่วนแสดงคะแนนและสรุปผลเมื่อทำเสร็จ -->
     <div id="result" class="result-box"></div>
 
-    <!-- iframe ลับสำหรับใช้บันทึกแบบเบื้องหลังเพื่อรองรับ GitHub Pages -->
+    <!-- ส่วนรับผลลัพธ์เพื่อไม่ให้หน้าเว็บรีเฟรชหรือเด้งไป Google Form -->
     <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
 
-    <!-- เชื่อมต่อฟอร์มไปยังระบบของ Google Form โดยตรง -->
     <form id="quizForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScGb0X_NmVogie8Rdocb9lYaLQpykqBxSNEWYFKe6rykFUAoQ/formResponse" target="hidden_iframe">
         
-        <!-- ส่วนข้อมูลผู้เรียนและ Entry ID อ้างอิงจากแบบฟอร์มจริงของคุณ -->
+        <!-- ข้อมูลส่วนตัวผูก Entry ID สำเร็จรูปจากฟอร์มของคุณ -->
         <div class="user-info-box">
             <h3>ข้อมูลผู้เรียน</h3>
             <div class="form-group-grid">
@@ -217,26 +220,26 @@
                 </div>
             </div>
             
-            <!-- ผูกช่อง Input ลับเข้ากับ Entry ID หลังบ้านจากฟอร์มของคุณสำเร็จรูป -->
+            <!-- ส่งค่าเข้าสู่ Google Form ของคุณเบื้องหลังผ่าน Entry ID จริง -->
             <input type="hidden" id="form_firstName" name="entry.2062637951" value="">
             <input type="hidden" id="form_lastName" name="entry.571424682" value="">
             <input type="hidden" id="form_subdistrict" name="entry.88094285" value="">
             <input type="hidden" id="form_score" name="entry.680879555" value="">
         </div>
 
-        <!-- ข้อสอบ 1 - 10 พร้อมตัวเลือก -->
-        <div class="quiz-item" data-q="1"><div class="question">1. ข้อใดคือความหมายที่ถูกต้องที่สุดของ "ข่าวปลอม" (Fake News)?</div><div class="options"><label class="option-label"><input type="radio" name="q1" value="ก"> ก. ข่าวที่เขียนสะกดคำผิดเยอะทำให้เข้าใจคลาดเคลื่อน</label><label class="option-label"><input type="radio" name="q1" value="ข"> ข. ข่าวสารที่ถูกสร้างขึ้นเพื่อบิดเบือนข้อเท็จจริง โดยมีเจตนาหลอกลวง</label><label class="option-label"><input type="radio" name="q1" value="ค"> ค. ข่าวเก่าที่ถูกนำมาเล่าใหม่ในสถานการณ์ปัจจุบัน</label><label class="option-label"><input type="radio" name="q1" value="ง"> ง. ข่าววาไรตี้บันเทิงที่เน้นความสนุกสนาน</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="2"><div class="question">2. สิ่งแรกที่ควรทำเมื่อได้รับข่าวสารที่มีพาดหัวข้อน่าตื่นเต้นและน่าตกใจคืออะไร?</div><div class="options"><label class="option-label"><input type="radio" name="q2" value="ก"> ก. รีบแชร์ลงกลุ่มครอบครัวทันทีเพื่อเตือนภัย</label><label class="option-label"><input type="radio" name="q2" value="ข"> ข. กดไลก์และคอมเมนต์แสดงความคิดเห็นทันที</label><label class="option-label"><input type="radio" name="q2" value="ค"> ค. หยุดคิด ตรวจสอบแหล่งที่มา และหาข้อมูลจากหลายๆ แหล่งก่อน</label><label class="option-label"><input type="radio" name="q2" value="ง"> ง. ลบข่าวนั้นทิ้งทันทีเพราะคิดว่าเป็นข่าวปลอมแน่นอน</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="3"><div class="question">3. ข้อใดจัดเป็นแหล่งข้อมูลที่มีความน่าเชื่อถือมากที่สุดในการตรวจสอบข่าวสาร?</div><div class="options"><label class="option-label"><input type="radio" name="q3" value="ก"> ก. บล็อกส่วนตัวของอินฟลูเอนเซอร์ที่มีผู้ติดตามหลักแสน</label><label class="option-label"><input type="radio" name="q3" value="ข"> ข. เว็บไซต์หน่วยงานราชการ สำนักข่าวหลัก หรือสถาบันวิจัยที่น่าเชื่อถือ</label><label class="option-label"><input type="radio" name="q3" value="ค"> ค. ข้อความที่ส่งต่อกันมาในไลน์ (Line) โดยไม่ระบุชื่อผู้เขียน</label><label class="option-label"><input type="radio" name="q3" value="ง"> ง. โพสต์จากบัญชีอวตารที่ไม่เปิดเผยตัวตนใน Twitter (X)</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="4"><div class="question">4. ข่าวปลอมประเภท "Clickbait" มักมีลักษณะเด่นอย่างไร?</div><div class="options"><label class="option-label"><input type="radio" name="q4" value="ก"> ก. ใช้พาดหัวข่าวกินใจ เกินจริง เพื่อดึงดูดให้คนกดเข้าไปดูเพื่อยอดวิว</label><label class="option-label"><input type="radio" name="q4" value="ข"> ข. เป็นบทความวิชาการที่มีศัพท์ภาษาอังกฤษจำนวนมาก</label><label class="option-label"><input type="radio" name="q4" value="ค"> ค. มีการแนบหลักฐานและรูปภาพประกอบอย่างละเอียด</label><label class="option-label"><input type="radio" name="q4" value="ง"> ง. เป็นข่าวที่มีเฉพาะการกระจายเสียงในวิทยุเท่านั้น</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="5"><div class="question">5. "Deepfake" ที่มักถูกใช้ในการทำข่าวปลอมยุคใหม่หมายถึงเทคโนโลยีใด?</div><div class="options"><label class="option-label"><input type="radio" name="q5" value="ก"> ก. การแปลภาษาจากต่างประเทศโดยใช้พจนานุกรม</label><label class="option-label"><input type="radio" name="q5" value="ข"> ข. การใช้ AI ตัดต่อภาพหรือใบหน้าและเสียงของบุคคลให้ดูเหมือนจริง</label><label class="option-label"><input type="radio" name="q5" value="ค"> ค. การกู้คืนข้อมูลที่ถูกลบไปแล้วในอดีต</label><label class="option-label"><input type="radio" name="q5" value="ง"> ง. การสร้างเว็บไซต์เลียนแบบธนาคารเพื่อขโมยรหัสผ่าน</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="6"><div class="question">6. การตรวจสอบ "URL" หรือที่อยู่เว็บไซต์ ช่วยป้องกันข่าวปลอมได้อย่างไร?</div><div class="options"><label class="option-label"><input type="radio" name="q6" value="ก"> ก. ช่วยเช็กว่าอินเทอร์เน็ตของเรามีความเร็วเท่าไหร่</label><label class="option-label"><input type="radio" name="q6" value="ข"> ข. ช่วยตรวจสอบว่าเราพิมพ์ตัวอักษรภาษาไทยถูกต้องหรือไม่</label><label class="option-label"><input type="radio" name="q6" value="ค"> ค. ช่วยสังเกตเว็บไซต์ปลอมที่มักลอกเลียนแบบชื่อสำนักข่าวหลักแต่สะกดต่างกันเล็กน้อย</label><label class="option-label"><input type="radio" name="q6" value="ง"> ง. ช่วยค้นหาเบอร์โทรศัพท์ของผู้เขียนข่าว</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="7"><div class="question">7. หากนักเรียนพบข่าวปลอมที่มีลักษณะหลอกลวงเพื่อเอาเงิน หรือสร้างความตื่นตระหนกในวงกว้าง ควรแจ้งหน่วยงานใด?</div><div class="options"><label class="option-label"><input type="radio" name="q7" value="ก"> ก. กรมอุตุนิยมวิทยา</label><label class="option-label"><input type="radio" name="q7" value="ข"> ข. ศูนย์ต่อต้านข่าวปลอม ประเทศไทย (Anti-Fake News Center)</label><label class="option-label"><input type="radio" name="q7" value="ค"> ค. กระทรวงการต่างประเทศ</label><label class="option-label"><input type="radio" name="q7" value="ง"> ง. สถาบันอาหาร</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="8"><div class="question">8. เหตุใดบุคคลทั่วไปจึงไม่ควรแชร์ "ข่าวปลอม" แม้จะแชร์ด้วยความหวังดีก็ตาม?</div><div class="options"><label class="option-label"><input type="radio" name="q8" value="ก"> ก. เพราะอาจสร้างความเข้าใจผิด ความตื่นตระหนก และอาจมีความผิดตาม พ.ร.บ.คอมพิวเตอร์ฯ</label><label class="option-label"><input type="radio" name="q8" value="ข"> ข. เพราะจะทำให้โทรศัพท์มือถือเครื่องช้าลงและติดไวรัส</label><label class="option-label"><input type="radio" name="q8" value="ค"> ค. เพราะจะทำให้ยอดผู้ติดตามในโซเชียลมีเดียลดลงทันที</label><label class="option-label"><input type="radio" name="q8" value="ง"> ง. เพราะไม่มีผลเสียใดๆ ความหวังดีสำคัญที่สุด</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="9"><div class="question">9. วิธีการใดใช้ตรวจสอบ "รูปภาพ" ที่แนบมากับข่าวว่าสอดคล้องกับความจริงในอดีตหรือไม่?</div><div class="options"><label class="option-label"><input type="radio" name="q9" value="ก"> ก. การเพิ่มความสว่างของหน้าจอโทรศัพท์</label><label class="option-label"><input type="radio" name="q9" value="ข"> ข. การนำภาพไปใช้เทคนิค "Reverse Image Search" (ค้นหาด้วยรูปภาพ) ใน Google</label><label class="option-label"><input type="radio" name="q9" value="ค"> ค. การแชร์ภาพไปให้เพื่อนหลายๆ คนช่วยดูกัน</label><label class="option-label"><input type="radio" name="q9" value="ง"> ง. การตัดต่อภาพนั้นซ้ำอีกรอบเพื่อเปรียบเทียบ</label></div><div class="explanation"></div></div>
-        <div class="quiz-item" data-q="10"><div class="question">10. หลักการ "คิดก่อนแชร์" (Think Before You Share) ข้อใดสะท้อนการมีภูมิคุ้มกันสื่อที่ดีที่สุด?</div><div class="options"><label class="option-label"><input type="radio" name="q10" value="ก"> ก. ใครแชร์มาเราก็แชร์ต่อเพราะเป็นมารยาท</label><label class="option-label"><input type="radio" name="q10" value="ข"> ข. เชื่อทุกอย่างที่เห็นถ้าคนเขียนใช้คำพูดสุภาพ</label><label class="option-label"><input type="radio" name="q10" value="ค"> ค. ตระหนักรู้ สงสัย ตรวจสอบความถูกต้อง และประเมินผลกระทบก่อนส่งต่อ</label><label class="option-label"><input type="radio" name="q10" value="ง"> ง. เลือกแชร์เฉพาะข่าวที่ตรงกับความชอบหรือความเชื่อส่วนตัวเท่านั้น</label></div><div class="explanation"></div></div>
+        <!-- แบบทดสอบข้อ 1 - 10 -->
+        <div class="quiz-item" data-q="1"><div class="question">1. ข้อใดคือความหมายที่ถูกต้องที่สุดของ "ข่าวปลอม" (Fake News)?</div><div class="options"><label class="option-label"><input type="radio" name="q1" value="ก" required> ก. ข่าวที่เขียนสะกดคำผิดเยอะทำให้เข้าใจคลาดเคลื่อน</label><label class="option-label"><input type="radio" name="q1" value="ข"> ข. ข่าวสารที่ถูกสร้างขึ้นเพื่อบิดเบือนข้อเท็จจริง โดยมีเจตนาหลอกลวง</label><label class="option-label"><input type="radio" name="q1" value="ค"> ค. ข่าวเก่าที่ถูกนำมาเล่าใหม่ในสถานการณ์ปัจจุบัน</label><label class="option-label"><input type="radio" name="q1" value="ง"> ง. ข่าววาไรตี้บันเทิงที่เน้นความสนุกสนาน</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="2"><div class="question">2. สิ่งแรกที่ควรทำเมื่อได้รับข่าวสารที่มีพาดหัวข้อน่าตื่นเต้นและน่าตกใจคืออะไร?</div><div class="options"><label class="option-label"><input type="radio" name="q2" value="ก" required> ก. รีบแชร์ลงกลุ่มครอบครัวทันทีเพื่อเตือนภัย</label><label class="option-label"><input type="radio" name="q2" value="ข"> ข. กดไลก์และคอมเมนต์แสดงความคิดเห็นทันที</label><label class="option-label"><input type="radio" name="q2" value="ค"> ค. หยุดคิด ตรวจสอบแหล่งที่มา และหาข้อมูลจากหลายๆ แหล่งก่อน</label><label class="option-label"><input type="radio" name="q2" value="ง"> ง. ลบข่าวนั้นทิ้งทันทีเพราะคิดว่าเป็นข่าวปลอมแน่นอน</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="3"><div class="question">3. ข้อใดจัดเป็นแหล่งข้อมูลที่มีความน่าเชื่อถือมากที่สุดในการตรวจสอบข่าวสาร?</div><div class="options"><label class="option-label"><input type="radio" name="q3" value="ก" required> ก. บล็อกส่วนตัวของอินฟลูเอนเซอร์ที่มีผู้ติดตามหลักแสน</label><label class="option-label"><input type="radio" name="q3" value="ข"> ข. เว็บไซต์หน่วยงานราชการ สำนักข่าวหลัก หรือสถาบันวิจัยที่น่าเชื่อถือ</label><label class="option-label"><input type="radio" name="q3" value="ค"> ค. ข้อความที่ส่งต่อกันมาในไลน์ (Line) โดยไม่ระบุชื่อผู้เขียน</label><label class="option-label"><input type="radio" name="q3" value="ง"> ง. โพสต์จากบัญชีอวตารที่ไม่เปิดเผยตัวตนใน Twitter (X)</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="4"><div class="question">4. ข่าวปลอมประเภท "Clickbait" มักมีลักษณะเด่นอย่างไร?</div><div class="options"><label class="option-label"><input type="radio" name="q4" value="ก" required> ก. ใช้พาดหัวข่าวกินใจ เกินจริง เพื่อดึงดูดให้คนกดเข้าไปดูเพื่อยอดวิว</label><label class="option-label"><input type="radio" name="q4" value="ข"> ข. เป็นบทความวิชาการที่มีศัพท์ภาษาอังกฤษจำนวนมาก</label><label class="option-label"><input type="radio" name="q4" value="ค"> ค. มีการแนบหลักฐานและรูปภาพประกอบอย่างละเอียด</label><label class="option-label"><input type="radio" name="q4" value="ง"> ง. เป็นข่าวที่มีเฉพาะการกระจายเสียงในวิทยุเท่านั้น</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="5"><div class="question">5. "Deepfake" ที่มักถูกใช้ในการทำข่าวปลอมยุคใหม่หมายถึงเทคโนโลยีใด?</div><div class="options"><label class="option-label"><input type="radio" name="q5" value="ก" required> ก. การแปลภาษาจากต่างประเทศโดยใช้พจนานุกรม</label><label class="option-label"><input type="radio" name="q5" value="ข"> ข. การใช้ AI ตัดต่อภาพหรือใบหน้าและเสียงของบุคคลให้ดูเหมือนจริง</label><label class="option-label"><input type="radio" name="q5" value="ค"> ค. การกู้คืนข้อมูลที่ถูกลบไปแล้วในอดีต</label><label class="option-label"><input type="radio" name="q5" value="ง"> ง. การสร้างเว็บไซต์เลียนแบบธนาคารเพื่อขโมยรหัสผ่าน</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="6"><div class="question">6. การตรวจสอบ "URL" หรือที่อยู่เว็บไซต์ ช่วยป้องกันข่าวปลอมได้อย่างไร?</div><div class="options"><label class="option-label"><input type="radio" name="q6" value="ก" required> ก. ช่วยเช็กว่าอินเทอร์เน็ตของเรามีความเร็วเท่าไหร่</label><label class="option-label"><input type="radio" name="q6" value="ข"> ข. ช่วยตรวจสอบว่าเราพิมพ์ตัวอักษรภาษาไทยถูกต้องหรือไม่</label><label class="option-label"><input type="radio" name="q6" value="ค"> ค. ช่วยสังเกตเว็บไซต์ปลอมที่มักลอกเลียนแบบชื่อสำนักข่าวหลักแต่สะกดต่างกันเล็กน้อย</label><label class="option-label"><input type="radio" name="q6" value="ง"> ง. ช่วยค้นหาเบอร์โทรศัพท์ของผู้เขียนข่าว</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="7"><div class="question">7. หากนักเรียนพบข่าวปลอมที่มีลักษณะหลอกลวงเพื่อเอาเงิน หรือสร้างความตื่นตระหนกในวงกว้าง ควรแจ้งหน่วยงานใด?</div><div class="options"><label class="option-label"><input type="radio" name="q7" value="ก" required> ก. กรมอุตุนิยมวิทยา</label><label class="option-label"><input type="radio" name="q7" value="ข"> ข. ศูนย์ต่อต้านข่าวปลอม ประเทศไทย (Anti-Fake News Center)</label><label class="option-label"><input type="radio" name="q7" value="ค"> ค. กระทรวงการต่างประเทศ</label><label class="option-label"><input type="radio" name="q7" value="ง"> ง. สถาบันอาหาร</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="8"><div class="question">8. เหตุใดบุคคลทั่วไปจึงไม่ควรแชร์ "ข่าวปลอม" แม้จะแชร์ด้วยความหวังดีก็ตาม?</div><div class="options"><label class="option-label"><input type="radio" name="q8" value="ก" required> ก. เพราะอาจสร้างความเข้าใจผิด ความตื่นตระหนก และอาจมีความผิดตาม พ.ร.บ.คอมพิวเตอร์ฯ</label><label class="option-label"><input type="radio" name="q8" value="ข"> ข. เพราะจะทำให้โทรศัพท์มือถือเครื่องช้าลงและติดไวรัส</label><label class="option-label"><input type="radio" name="q8" value="ค"> ค. เพราะจะทำให้ยอดผู้ติดตามในโซเชียลมีเดียลดลงทันที</label><label class="option-label"><input type="radio" name="q8" value="ง"> ง. เพราะไม่มีผลเสียใดๆ ความหวังดีสำคัญที่สุด</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="9"><div class="question">9. วิธีการใดใช้ตรวจสอบ "รูปภาพ" ที่แนบมากับข่าวว่าสอดคล้องกับความจริงในอดีตหรือไม่?</div><div class="options"><label class="option-label"><input type="radio" name="q9" value="ก" required> ก. การเพิ่มความสว่างของหน้าจอโทรศัพท์</label><label class="option-label"><input type="radio" name="q9" value="ข"> ข. การนำภาพไปใช้เทคนิค "Reverse Image Search" (ค้นหาด้วยรูปภาพ) ใน Google</label><label class="option-label"><input type="radio" name="q9" value="ค"> ค. การแชร์ภาพไปให้เพื่อนหลายๆ คนช่วยดูกัน</label><label class="option-label"><input type="radio" name="q9" value="ง"> ง. การตัดต่อภาพนั้นซ้ำอีกรอบเพื่อเปรียบเทียบ</label></div><div class="explanation"></div></div>
+        <div class="quiz-item" data-q="10"><div class="question">10. หลักการ "คิดก่อนแชร์" (Think Before You Share) ข้อใดสะท้อนการมีภูมิคุ้มกันสื่อที่ดีที่สุด?</div><div class="options"><label class="option-label"><input type="radio" name="q10" value="ก" required> ก. ใครแชร์มาเราก็แชร์ต่อเพราะเป็นมารยาท</label><label class="option-label"><input type="radio" name="q10" value="ข"> ข. เชื่อทุกอย่างที่เห็นถ้าคนเขียนใช้คำพูดสุภาพ</label><label class="option-label"><input type="radio" name="q10" value="ค"> ค. ตระหนักรู้ สงสัย ตรวจสอบความถูกต้อง และประเมินผลกระทบก่อนส่งต่อ</label><label class="option-label"><input type="radio" name="q10" value="ง"> ง. เลือกแชร์เฉพาะข่าวที่ตรงกับความชอบหรือความเชื่อส่วนตัวเท่านั้น</label></div><div class="explanation"></div></div>
 
-        <button type="button" id="submitBtn" class="btn-submit" onclick="checkAndSubmit()">ส่งคำตอบและบันทึกคะแนน</button>
+        <button type="submit" id="submitBtn" class="btn-submit">ส่งคำตอบและบันทึกคะแนน</button>
     </form>
 </div>
 
@@ -254,27 +257,22 @@
         10: { ans: "ค", desc: "เฉลย ค. การคิดก่อนแชร์ที่ดีที่สุดคือการรู้จักสงสัย ตรวจสอบข้อเท็จจริง และคิดถึงผลกระทบที่จะตามมากก่อนทุกครั้ง" }
     };
 
-    function checkAndSubmit() {
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
         const fName = document.getElementById('firstName').value.trim();
         const lName = document.getElementById('lastName').value.trim();
         const subDist = document.getElementById('subdistrict').value.trim();
 
-        if (!fName || !lName || !subDist) {
-            alert("กรุณากรอก ชื่อ นามสกุล และตำบล ให้ครบถ้วนก่อนส่งคำตอบครับ");
-            return;
-        }
-
         let score = 0;
         const totalQuestions = 10;
-        const form = document.getElementById('quizForm');
 
-        // แสดงผลตรวจคำตอบแบบรายข้อ (สีเขียวคือถูก สีแดงคือผิด)
+        // วนลูปตรวจข้อสอบและไฮไลท์สีสันตามจริง
         for (let i = 1; i <= totalQuestions; i++) {
-            const selectedOpt = form.querySelector(`input[name="q${i}"]:checked`);
+            const selectedOpt = this.querySelector(`input[name="q${i}"]:checked`);
             const quizItem = document.querySelector(`.quiz-item[data-q="${i}"]`);
             const expDiv = quizItem.querySelector('.explanation');
             const allLabels = quizItem.querySelectorAll('.option-label');
 
+            // ล้างสีเก่าออกก่อน
             allLabels.forEach(label => label.classList.remove('correct-bg', 'incorrect-bg'));
             expDiv.innerHTML = solutions[i].desc;
             expDiv.style.display = 'block';
@@ -290,46 +288,42 @@
                     selectedOpt.parentElement.classList.add('incorrect-bg');
                     expDiv.style.color = '#721c24';
                     expDiv.style.backgroundColor = '#f8d7da';
+                    // วงแถบสีเขียวให้กับตัวเลือกที่ถูกจริง ๆ
                     allLabels.forEach(label => {
                         if (label.innerText.trim().startsWith(solutions[i].ans)) label.classList.add('correct-bg');
                     });
                 }
-            } else {
-                expDiv.style.color = '#721c24';
-                expDiv.style.backgroundColor = '#f8d7da';
-                allLabels.forEach(label => {
-                    if (label.innerText.trim().startsWith(solutions[i].ans)) label.classList.add('correct-bg');
-                });
             }
         }
 
-        // นำค่าไปใส่ในช่องยิงข้อมูลแบบฟอร์มเบื้องหลัง
+        // เตรียมข้อมูลส่งเข้าช่องรับข้อมูลของ Google Form ลับ
         document.getElementById('form_firstName').value = fName;
         document.getElementById('form_lastName').value = lName;
         document.getElementById('form_subdistrict').value = subDist;
         document.getElementById('form_score').value = score + " / 10";
 
-        // ส่งข้อมูลเข้าเซิร์ฟเวอร์ Google Form
-        form.submit();
-
-        // แสดงคะแนนด้านบนหน้าจอเว็บของเด็กทันที
+        // แสดงกล่องสรุปคะแนนสีเขียวความสำเร็จด้านบนหน้าจอเว็บให้แก่ผู้เรียน
         const resultBox = document.getElementById('result');
         resultBox.innerHTML = `
-            <div class="result-title">🎉 ส่งคำตอบและบันทึกคะแนนเรียบร้อยแล้ว!</div>
-            <div><strong>ผู้เรียน:</strong> คุณ ${fName} ${lName}</div>
-            <div><strong>ตำบล:</strong> ${subDist}</div>
-            <div style="font-size: 1.4rem; margin-top: 10px; color: var(--success-color);">
-                <strong>ได้คะแนนรวม:</strong> ${score} / ${totalQuestions} คะแนน
+            <div class="result-title">🎉 บันทึกข้อมูลและตรวจคะแนนเรียบร้อยแล้ว!</div>
+            <div style="color: #2c3e50;"><strong>ผู้เรียน:</strong> คุณ ${fName} ${lName} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>ตำบล:</strong> ${subDist}</div>
+            <div style="font-size: 1.6rem; margin-top: 15px; color: #28a745; font-weight: bold;">
+                คะแนนรวมของคุณคือ: ${score} / ${totalQuestions} คะแนน
             </div>
+            <p style="font-size: 0.95rem; color: #6c757d; margin-top: 5px; margin-bottom: 0;">(ข้อมูลคะแนนได้ถูกนำส่งไปยังระบบจัดเก็บฐานข้อมูลเรียบร้อยแล้ว คุณสามารถเลื่อนอ่านเฉลยคำอธิบายแต่ละข้อด้านล่างได้เลย)</p>
         `;
         resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#d4edda';
+        resultBox.style.borderColor = '#28a745';
 
+        // ปิดปุ่มกดส่งเพื่อไม่ให้กดเบิ้ลซ้ำ
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
         submitBtn.innerText = "ส่งคำตอบสำเร็จ";
 
+        // เลื่อนหน้าจอขึ้นไปแสดงกล่องคะแนนสีเขียวด้านบน
         window.scrollTo({top: 0, behavior: 'smooth'});
-    }
+    });
 </script>
 
 </body>
