@@ -231,7 +231,7 @@
 </div>
 
 <script>
-    // ⚠️ นำลิงก์ Web App URL ที่ได้มาจากขั้นตอนที่ 1 มาวางแทนในเครื่องหมายคำพูดด้านล่างนี้ครับ
+    // URL Web App ของคุณครูที่เชื่อมโยงระบบหลังบ้านอย่างสมบูรณ์แบบ
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz3Q-d1LCNaqRZfsOo0H07QeC8ZMYX_EcejOpGzBamDspz-QsxA4aGu3Egx0b_y_fwLjA/exec";
 
     const solutions = {
@@ -287,7 +287,7 @@
 
         const finalScoreText = score + " / 10";
 
-        // ส่งข้อมูลตรงไปที่ Google Sheets ทันที ไร้ปัญหาช่องว่างแน่นอน
+        // ยิงส่งข้อมูลตรงไปที่ Google Sheets อย่างแม่นยำ
         fetch(WEB_APP_URL, {
             method: 'POST',
             mode: 'no-cors',
@@ -297,7 +297,7 @@
             body: `firstName=${encodeURIComponent(fName)}&lastName=${encodeURIComponent(lName)}&subdistrict=${encodeURIComponent(subDist)}&score=${encodeURIComponent(finalScoreText)}`
         });
 
-        // แสดงคะแนนด้านบน
+        // แสดงผลลัพธ์บนเบราว์เซอร์ให้นักเรียนเห็นทันที
         const resultBox = document.getElementById('result');
         resultBox.innerHTML = `
             <div class="result-title">🎉 บันทึกข้อมูลและส่งคะแนนเรียบร้อยแล้ว!</div>
