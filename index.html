@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สื่อการสอน: รู้ทันข่าวและ Fake News (ระบบบันทึกคะแนน)</title>
+    <title>สื่อการสอน: รู้ทันข่าวและ Fake News</title>
     <style>
         :root {
             --primary-color: #4a90e2;
@@ -185,6 +185,11 @@
             background-color: #f8d7da !important;
             border-color: var(--danger-color) !important;
         }
+        
+        /* ซ่อน iframe ลับที่ใช้สำหรับส่งข้อมูลเบื้องหลังบน GitHub */
+        #hidden_iframe {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -195,24 +200,30 @@
 
     <div id="result" class="result-box"></div>
 
-    <form id="quizForm">
+    <!-- ส่วนส่งข้อมูลลับเพื่อรองรับ GitHub Pages (ส่งไปยัง iframe ซ่อนเพื่อไม่ให้หน้าเว็บรีเฟรช) -->
+    <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
+
+    <!-- ตั้งเป้าหมายการส่ง form ไปที่ iframe ลับ -->
+    <form id="quizForm" method="POST" target="hidden_iframe">
         <!-- ข้อมูลส่วนตัว -->
         <div class="user-info-box">
             <h3>ข้อมูลผู้เรียน</h3>
             <div class="form-group-grid">
                 <div class="form-group">
                     <label for="firstName">ชื่อ:</label>
-                    <input type="text" id="firstName" placeholder="กรอกชื่อจริง" required>
+                    <input type="text" id="firstName" name="firstName" placeholder="กรอกชื่อจริง" required>
                 </div>
                 <div class="form-group">
                     <label for="lastName">นามสกุล:</label>
-                    <input type="text" id="lastName" placeholder="กรอกนามสกุล" required>
+                    <input type="text" id="lastName" name="lastName" placeholder="กรอกนามสกุล" required>
                 </div>
                 <div class="form-group">
                     <label for="subdistrict">ตำบล:</label>
-                    <input type="text" id="subdistrict" placeholder="กรอกชื่อตำบล" required>
+                    <input type="text" id="subdistrict" name="subdistrict" placeholder="กรอกชื่อตำบล" required>
                 </div>
             </div>
+            <!-- input ลับสำหรับส่งคะแนน -->
+            <input type="hidden" id="scoreInput" name="score" value="0">
         </div>
 
         <!-- ข้อ 1 - 10 -->
@@ -227,13 +238,16 @@
         <div class="quiz-item" data-q="9"><div class="question">9. วิธีการใดใช้ตรวจสอบ "รูปภาพ" ที่แนบมากับข่าวว่าสอดคล้องกับความจริงในอดีตหรือไม่?</div><div class="options"><label class="option-label"><input type="radio" name="q9" value="ก"> ก. การเพิ่มความสว่างของหน้าจอโทรศัพท์</label><label class="option-label"><input type="radio" name="q9" value="ข"> ข. การนำภาพไปใช้เทคนิค "Reverse Image Search" (ค้นหาด้วยรูปภาพ) ใน Google</label><label class="option-label"><input type="radio" name="q9" value="ค"> ค. การแชร์ภาพไปให้เพื่อนหลายๆ คนช่วยดูกัน</label><label class="option-label"><input type="radio" name="q9" value="ง"> ง. การตัดต่อภาพนั้นซ้ำอีกรอบเพื่อเปรียบเทียบ</label></div><div class="explanation"></div></div>
         <div class="quiz-item" data-q="10"><div class="question">10. หลักการ "คิดก่อนแชร์" (Think Before You Share) ข้อใดสะท้อนการมีภูมิคุ้มกันสื่อที่ดีที่สุด?</div><div class="options"><label class="option-label"><input type="radio" name="q10" value="ก"> ก. ใครแชร์มาเราก็แชร์ต่อเพราะเป็นมารยาท</label><label class="option-label"><input type="radio" name="q10" value="ข"> ข. เชื่อทุกอย่างที่เห็นถ้าคนเขียนใช้คำพูดสุภาพ</label><label class="option-label"><input type="radio" name="q10" value="ค"> ค. ตระหนักรู้ สงสัย ตรวจสอบความถูกต้อง และประเมินผลกระทบก่อนส่งต่อ</label><label class="option-label"><input type="radio" name="q10" value="ง"> ง. เลือกแชร์เฉพาะข่าวที่ตรงกับความชอบหรือความเชื่อส่วนตัวเท่านั้น</label></div><div class="explanation"></div></div>
 
-        <button type="button" id="submitBtn" class="btn-submit" onclick="checkAnswers()">ส่งคำตอบและบันทึกคะแนน</button>
+        <button type="button" id="submitBtn" class="btn-submit" onclick="checkAndSubmit()">ส่งคำตอบและบันทึกคะแนน</button>
     </form>
 </div>
 
 <script>
-    // ⚠️ นำลิงก์ URL ที่ได้จากขั้นตอนการ Deploy ของ Google Apps Script มาใส่ตรงนี้แทนค่าเดิมครับ
+    // ⚠️ คัดลอก URL เว็บแอปใหม่จาก Google Apps Script มาใส่ตรงนี้ครับ
     const WEB_APP_URL = "ใส่_URL_GOOGLE_APPS_SCRIPT_ตรงนี้";
+
+    // ใส่ URL ลงในตัวฟอร์มโดยอัตโนมัติ
+    document.getElementById('quizForm').action = WEB_APP_URL;
 
     const solutions = {
         1: { ans: "ข", desc: "เฉลย ข. ข่าวปลอมคือข้อมูลที่จงใจสร้างขึ้นมาเพื่อบิดเบือนหรือหลอกลวงให้ผู้อื่นหลงเชื่อ" },
@@ -248,7 +262,7 @@
         10: { ans: "ค", desc: "เฉลย ค. การคิดก่อนแชร์ที่ดีที่สุดคือการรู้จักสงสัย ตรวจสอบข้อเท็จจริง และคิดถึงผลกระทบที่จะตามมากก่อนทุกครั้ง" }
     };
 
-    function checkAnswers() {
+    function checkAndSubmit() {
         const fName = document.getElementById('firstName').value.trim();
         const lName = document.getElementById('lastName').value.trim();
         const subDist = document.getElementById('subdistrict').value.trim();
@@ -258,14 +272,11 @@
             return;
         }
 
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "กำลังบันทึกคะแนนเข้าสู่ระบบ...";
-
         let score = 0;
         const totalQuestions = 10;
         const form = document.getElementById('quizForm');
 
+        // ตรวจและเปลี่ยนสีเฉลยให้เด็กเห็นทันที
         for (let i = 1; i <= totalQuestions; i++) {
             const selectedOpt = form.querySelector(`input[name="q${i}"]:checked`);
             const quizItem = document.querySelector(`.quiz-item[data-q="${i}"]`);
@@ -300,39 +311,31 @@
             }
         }
 
-        const payload = {
-            firstName: fName,
-            lastName: lName,
-            subdistrict: subDist,
-            score: score
-        };
+        // นำคะแนนใส่ลงในช่องแอบส่ง
+        document.getElementById('scoreInput').value = score;
 
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        })
-        .then(() => {
-            const resultBox = document.getElementById('result');
-            resultBox.innerHTML = `
-                <div class="result-title">🎉 บันทึกข้อมูลและคะแนนเรียบร้อยแล้ว!</div>
-                <div><strong>ผู้เรียน:</strong> คุณ ${fName} ${lName}</div>
-                <div><strong>ตำบล:</strong> ${subDist}</div>
-                <div style="font-size: 1.4rem; margin-top: 10px; color: var(--success-color);">
-                    <strong>ได้คะแนนรวม:</strong> ${score} / ${totalQuestions} คะแนน
-                </div>
-            `;
-            resultBox.style.display = 'block';
-            submitBtn.innerText = "ส่งคำตอบและบันทึกคะแนนสำเร็จ";
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล แต่ระบบตรวจข้อสอบให้แล้ว");
-            submitBtn.disabled = false;
-            submitBtn.innerText = "ลองส่งคำตอบใหม่อีกครั้ง";
-        });
+        // สั่งส่งฟอร์มข้อมูลไปยัง Google Sheets ผ่านช่องทางเบื้องหลัง
+        form.submit();
+
+        // แสดงคะแนนสวยๆ ด้านบนหน้าเว็บให้กับผู้เรียนทันที
+        const resultBox = document.getElementById('result');
+        resultBox.innerHTML = `
+            <div class="result-title">🎉 บันทึกข้อมูลและคะแนนเรียบร้อยแล้ว!</div>
+            <div><strong>ผู้เรียน:</strong> คุณ ${fName} ${lName}</div>
+            <div><strong>ตำบล:</strong> ${subDist}</div>
+            <div style="font-size: 1.4rem; margin-top: 10px; color: var(--success-color);">
+                <strong>ได้คะแนนรวม:</strong> ${score} / ${totalQuestions} คะแนน
+            </div>
+        `;
+        resultBox.style.display = 'block';
+
+        // ปิดปุ่มกดเพื่อไม่ให้กดส่งซ้ำ
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "ส่งคำตอบและบันทึกคะแนนสำเร็จ";
+
+        // เลื่อนหน้าจอกลับขึ้นไปดูคะแนนด้านบน
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 </script>
 
